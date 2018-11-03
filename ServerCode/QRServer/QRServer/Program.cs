@@ -1,4 +1,8 @@
 ﻿using System;
+using System.IO;
+using System.Threading;
+using System.Net.Sockets;
+using System.Net;
 
 namespace QRServer
 {
@@ -7,6 +11,11 @@ namespace QRServer
         static private Client[] clientTable;
         static private int[][] teamTable;
         static private int[] teamSizes;
+
+        const int port = 666;
+
+        private TcpListener listener;
+        private Thread listenerThread;
 
         static void Main(string[] args)
         {
@@ -30,27 +39,35 @@ namespace QRServer
                 for (int j = 0; j < input.Length; j++)
                 {
                     int t = Int32.Parse(input[j]);
-                    if(t>=teamTable.Length) { throw new System.ArgumentException("Team number cannot be larger than maximum amount of teams"); }
+                    if (t >= teamTable.Length) { throw new System.ArgumentException("Team number cannot be larger than maximum amount of teams"); }
 
                     teamTable[i][j] = t;
                 }
             }
         }
-        
+
+        #region internal stuff
+
         /// <summary>
         /// When a new client connects, this puts that client in the players table 
         /// </summary>
         /// <param name="input">input gained from the message handler</param>
         /// <returns></returns>
-        private void ClientConnect(string[] input)
+        private void ClientConnect(string[] input, StreamReader read, StreamWriter write)
         {
             int id = Int32.Parse(input[1]);
             string name = input[2];
             int team = GetSmallestTeam();
-            teamSizes[team]++;
+            int port = Int32.Parse(input[3]);
 
-            Client client = new Client(id, team, name);
+            teamSizes[team]++; //Increase the team size of the team this player joins
+
+            Client client = new Client(id, team, name, 0, read, write, port);
             clientTable[id] = client;
+
+            //Start listening to the stream of the client
+            Thread t = new Thread(() => Listen(client));
+            t.Start();
 
             //Send message to Client that it has successfully connected, and which team the client belongs to
             SendMessage(client, client.ClientID + " SC " + client.Team);
@@ -82,19 +99,19 @@ namespace QRServer
         {
             string[] input = message.Split(" ");
 
-            switch(input[0])
+            switch (input[0])
             {
                 case "S":
                     Scan(input);
                     break;
 
-                case "C":
-                    ClientConnect(input);
-                    break;
+                //case "C":
+                //    ClientConnect(input);
+                //    break;
 
                 case "D":
                     Client c = clientTable[Int32.Parse(input[1])];
-                    if(c == null) { break; } //If the client trying to disconnect does not exist, exit
+                    if (c == null) { break; } //If the client trying to disconnect does not exist, exit
                     ClientDisconnect(c);
                     break;
 
@@ -153,8 +170,8 @@ namespace QRServer
             Client scanner = (clientTable[Int32.Parse(input[1])]);
             Client target = (clientTable[Int32.Parse(input[2])]);
 
-            if(scanner == null) { return; } //If the scanner client does not exist, do nothing
-            if(target == null)
+            if (scanner == null) { return; } //If the scanner client does not exist, do nothing
+            if (target == null)
             {
                 //Send message to scanner saying the target doesn't exist
                 SendMessage(scanner, scanner.ClientID + " IS");
@@ -171,7 +188,7 @@ namespace QRServer
         /// <param name="message"></param>
         private void SendMessage(Client client, string message)
         {
-            throw new System.NotImplementedException("Message Sending is not implemented yet");
+            client.writer.WriteLine(message);
         }
 
         /// <summary>
@@ -185,11 +202,67 @@ namespace QRServer
 
             for (int i = 0; i < teamSizes.Length; i++)
             {
-                if(teamSizes[i]<smallest) { smallest = teamSizes[i]; result = i; }
+                if (teamSizes[i] < smallest) { smallest = teamSizes[i]; result = i; }
             }
 
-            if(result<0) { throw new ArgumentOutOfRangeException("Okay but how the fuck did you end up with no teams exaclty?"); }
+            if (result < 0) { throw new ArgumentOutOfRangeException("Okay but how the fuck did you end up with no teams exaclty?"); }
             return result;
         }
+
+        #endregion
+
+        #region networking stuff
+
+        /// <summary>
+        /// Accepts new Players into the game
+        /// </summary>
+        /// <param name="listener"></param>
+        private void ListenForRequests(TcpListener listener)
+        {
+            //listener = new TcpListener(IPAddress.Parse("127.0.0.1"),port );
+
+            try
+            {
+                while(true)
+                {
+                    TcpClient client = listener.AcceptTcpClient();
+                    StreamReader clientIn = new StreamReader(client.GetStream());
+                    StreamWriter clientOut = new StreamWriter(client.GetStream());
+                    clientOut.AutoFlush = true;
+
+                    string[] firstLine = clientIn.ReadLine().Split(" ");
+
+                    ClientConnect(firstLine, clientIn, clientOut);
+                }
+            }
+
+            catch(SocketException e)
+            {
+                Console.WriteLine("Yay socket exception");
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Method that handles messages from clients
+        /// </summary>
+        /// <param name="client"></param>
+        public void Listen(Client client)
+        {
+            try
+            {
+                while (true)
+                {
+                    MessageHandling(client.reader.ReadLine());
+                }
+            }
+            catch
+            { } //No connection, that's fine
+        }
+
+        #endregion
+
     }
+
 }
+
