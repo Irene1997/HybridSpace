@@ -15,6 +15,8 @@ namespace QRServer
         public int Team { get; set; }
         public string Name { get; }
         public int Score { get; set; }
+        public bool Connected { get; set; }
+        private Queue<String> backLog = new Queue<string>();
 
         public StreamReader reader;
         public StreamWriter writer;
@@ -28,6 +30,18 @@ namespace QRServer
             Score = score;
             reader = read;
             writer = write;
+            Connected = true;
+        }
+
+        public void EnqueueMessage(string message)
+        {
+            backLog.Enqueue(message);
+        }
+
+        public string DequeueBackLog()
+        {
+            if (backLog.Count > 0) { return backLog.Dequeue(); }
+            else { return "empty"; }
         }
     }
 }
