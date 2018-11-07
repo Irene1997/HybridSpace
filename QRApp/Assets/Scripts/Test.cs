@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Timers;
 using UnityEngine;
 using UnityEngine.UI;
 using ZXing;
@@ -11,23 +12,48 @@ public class Test : MonoBehaviour
     // Use this for initialization
     private WebCamTexture camTexture;
     private Rect screenRect;
+    private int screenHeight, screenWidth, halfScreenHeight, halfScreenWidth;
+    private float timer;
 
     public Text resultText;
 
+    float rotAngle = 90;
+    Vector2 pivotPoint;
+
     void Start() {
-        screenRect = new Rect(0, 0, Screen.width, Screen.height);
+        screenHeight = Screen.height;
+        screenWidth = Screen.width;
+        halfScreenHeight = Screen.height / 2;
+        halfScreenWidth = Screen.width / 2;
+
+        screenRect = new Rect(0, 0, screenWidth, screenHeight);
+        //screenRect = new Rect(0, 0, (Screen.height / 2), (Screen.width / 2));
+
         camTexture = new WebCamTexture();
-        camTexture.requestedHeight = Screen.height/2;
-        camTexture.requestedWidth = Screen.width/2;
+        camTexture.requestedHeight = screenHeight;
+        camTexture.requestedWidth = screenWidth;
         if (camTexture != null) {
             camTexture.Play();
         }
+
+        timer = Time.time;
     }
 
     void OnGUI() {
-        // drawing the camera on screen
-        GUI.DrawTexture(screenRect, camTexture, ScaleMode.ScaleAndCrop);
+        pivotPoint = new Vector2(halfScreenWidth, halfScreenHeight);
+        GUIUtility.RotateAroundPivot(rotAngle, pivotPoint);
 
+        // drawing the camera on screen
+        GUI.depth = -1;
+        GUI.DrawTexture(screenRect, camTexture, ScaleMode.ScaleToFit);
+        
+        if (Time.time - timer > 2) {
+            ReadCode();
+            timer = Time.time;
+        }
+    }
+
+    void ReadCode() {
         // do the reading — you might want to attempt to read less often than you draw on the screen for performance sake
         try {
             IBarcodeReader barcodeReader = new BarcodeReader();
