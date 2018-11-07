@@ -13,10 +13,11 @@ namespace MobileSpoof
     {
         StreamReader reader;
         StreamWriter writer;
+        int cId;
         public Client(int id, string name, int port)
         {
             bool connected = false;
-
+            cId = id;
             while (!connected)
             {
                 try
@@ -58,7 +59,22 @@ namespace MobileSpoof
                 while (true)
                 {
                     string s = reader.ReadLine();
-                    Console.WriteLine(s);
+                    try
+                    {
+                        if (Int32.Parse(s.Split(' ')[0]) != cId)
+                        {
+                            Console.WriteLine("Got a message for client " + s.Split(' ')[0]);
+                        }
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Got a message that was garbage");
+                        continue;
+                    }
+
+                    Console.WriteLine(s); //Instead of this, do message handling in real app
+
+
                 }
             }
             catch { } // Verbinding is kennelijk verbroken

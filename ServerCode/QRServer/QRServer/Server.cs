@@ -14,7 +14,9 @@ namespace QRServer
         private int[][] teamTable;
         private int[] teamSizes;
 
-        const int serverPort = 666;
+        private const int serverPort = 666;
+        private int scoreOnScan = 1;
+        private int scoreOnScanned = 0;
 
         public Server()
         {
@@ -222,9 +224,11 @@ namespace QRServer
                     target.Team = scanner.Team;
 
                     //Send message to Target that they have been scanned and what their new team is
-                    SendMessage(target, target.ClientID + " GS " + scanner.ClientID + " " + scanner.Name + " " + scanner.Team + " " + 0);
+                    target.Score += scoreOnScanned;
+                    scanner.Score += scoreOnScan;
+                    SendMessage(target, target.ClientID + " GS " + scanner.ClientID + " " + scanner.Name + " " + scanner.Team + " " + target.Score);
                     //Send message to Scanner that they succesfully scanned someone and converted them to their team
-                    SendMessage(scanner, scanner.ClientID + " SS " + target.ClientID + " " + target.Name + " " + 1);
+                    SendMessage(scanner, scanner.ClientID + " SS " + target.ClientID + " " + target.Name + " " + scanner.Score);
 
                     return;
                 }
@@ -242,7 +246,17 @@ namespace QRServer
         /// <param name="input">Input message</param>
         private void Scan(string[] input)
         {
+            int scannerID = Int32.Parse(input[1]);
+            int targetID = Int32.Parse(input[2]);
+
+            if(scannerID >= clientTable.Length) { return; } //If the scanner client is out of bounds, do nothing
             Client scanner = (clientTable[Int32.Parse(input[1])]);
+
+            if (targetID >= clientTable.Length)
+            {
+                SendMessage(scanner, scanner.ClientID + " IS");
+                return;
+            }
             Client target = (clientTable[Int32.Parse(input[2])]);
 
             if (scanner == null) { return; } //If the scanner client does not exist, do nothing
