@@ -27,11 +27,11 @@ public class Test : MonoBehaviour
         halfScreenWidth = Screen.width / 2;
 
         screenRect = new Rect(0, 0, screenWidth, screenHeight);
-        //screenRect = new Rect(0, 0, (Screen.height / 2), (Screen.width / 2));
 
         camTexture = new WebCamTexture();
         camTexture.requestedHeight = screenHeight;
         camTexture.requestedWidth = screenWidth;
+
         if (camTexture != null) {
             camTexture.Play();
         }
@@ -44,10 +44,9 @@ public class Test : MonoBehaviour
         GUIUtility.RotateAroundPivot(rotAngle, pivotPoint);
 
         // drawing the camera on screen
-        GUI.depth = -1;
         GUI.DrawTexture(screenRect, camTexture, ScaleMode.ScaleToFit);
         
-        if (Time.time - timer > 2) {
+        if (Time.time - timer > 1) {
             ReadCode();
             timer = Time.time;
         }
