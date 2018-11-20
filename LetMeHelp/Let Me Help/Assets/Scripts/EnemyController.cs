@@ -15,11 +15,10 @@ public class EnemyController : MonoBehaviour {
 
     public void Initialize() {
         playerPosition = GameController.instance.playerPosition;
-        agent.SetDestination(playerPosition);
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
+        agent.SetDestination(playerPosition);
 	}
 }

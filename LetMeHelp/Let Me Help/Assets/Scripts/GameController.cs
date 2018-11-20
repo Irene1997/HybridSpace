@@ -7,14 +7,18 @@ public class GameController : MonoBehaviour {
 
     public GameObject playerObject;
     public Vector3 playerPosition;
-    public GameObject[] enemies;
+    public GameObject enemies;
+
+    IList<EnemyController> enemyList;
 
     // Use this for initialization
     void Start() {
         instance = this;
         playerPosition = playerObject.transform.position;
-        foreach(GameObject enemy in enemies) {
-            enemy.GetComponent<EnemyController>().Initialize();
+        enemyList = new List<EnemyController>();
+        foreach (EnemyController enemy in enemies.GetComponentsInChildren<EnemyController>()) {
+            enemyList.Add(enemy);
+            enemy.Initialize();
         }
     }
 
