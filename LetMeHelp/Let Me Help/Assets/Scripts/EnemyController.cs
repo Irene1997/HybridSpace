@@ -11,11 +11,8 @@ public class EnemyController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         agent = gameObject.GetComponent<NavMeshAgent>();
+        playerPosition = GameController.Instance.player.transform.position;
 	}
-
-    public void Initialize() {
-        playerPosition = GameController.instance.playerPosition;
-    }
 	
 	// Update is called once per frame
 	void Update () {
