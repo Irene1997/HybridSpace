@@ -485,8 +485,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cb2a2d6a754c7d4199a158e02834e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 1299965713}
-  playerPosition: {x: 0, y: 0, z: 0}
+  player: {fileID: 1299965713}
   enemies: {fileID: 1325303443}
 --- !u!4 &821999514
 Transform:
