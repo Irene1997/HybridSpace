@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour {
     public GameObject enemies;
 
     [SerializeField]
-    IList<EnemyController> enemyList;
+    EnemyController[] enemyControllers;
 
     // Use this for initialization
     void Start() {
@@ -22,10 +22,7 @@ public class GameController : MonoBehaviour {
             enemies = GameObject.Find("Enemies");
             if (enemies == null) { Debug.LogWarning("No enemies could be found."); }
         }
-        enemyList = new List<EnemyController>();
-        foreach (EnemyController enemy in enemies.GetComponentsInChildren<EnemyController>()) {
-            enemyList.Add(enemy);
-        }
+        enemyControllers = enemies.GetComponentsInChildren<EnemyController>();
     }
 
     // Update is called once per frame
