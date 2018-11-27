@@ -14,6 +14,14 @@ public class GameController : MonoBehaviour {
     // Use this for initialization
     void Start() {
         instance = this;
+        if (player == null) {
+            player = GameObject.Find("PLayer");
+            if (player == null) { Debug.LogWarning("No player could be found."); }
+        }
+        if (enemies == null) {
+            enemies = GameObject.Find("Enemies");
+            if (enemies == null) { Debug.LogWarning("No enemies could be found."); }
+        }
         enemyList = new List<EnemyController>();
         foreach (EnemyController enemy in enemies.GetComponentsInChildren<EnemyController>()) {
             enemyList.Add(enemy);
@@ -29,7 +37,11 @@ public class GameController : MonoBehaviour {
         get {
             if (instance == null) {
                 instance = FindObjectOfType<GameController>();
-                if (instance == null) { Debug.LogWarning("No attached GameController could be found."); }
+                if (instance == null) {
+                    Debug.LogWarning("No attached GameController could be found.");
+                } else {
+                    instance.Start();
+                }
             }
             return instance;
         }
