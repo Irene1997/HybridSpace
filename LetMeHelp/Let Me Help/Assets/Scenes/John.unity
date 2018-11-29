@@ -513,6 +513,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b01aaa03caf90b43a560d142bdb5f59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  port: COM3
+  baudrate: 9600
 --- !u!4 &988693213 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4760269979686182, guid: 506c8320753d9874faf112ef7e372867,

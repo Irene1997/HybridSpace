@@ -57,6 +57,8 @@
      <Compile Include="Assets\Scripts\DoorScript.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\Input\ControllerInput.cs" />
+     <Compile Include="Assets\Scripts\Input\PlayerController.cs" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>D:/Hylia/Documents/Uni zooi/HKU/HybridSpace/LetMeHelp/Let Me Help/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
  </Reference>
