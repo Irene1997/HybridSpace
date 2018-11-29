@@ -467,6 +467,7 @@ GameObject:
   m_Component:
   - component: {fileID: 821999514}
   - component: {fileID: 821999513}
+  - component: {fileID: 821999515}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -487,6 +488,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1299965713}
   enemies: {fileID: 1325303443}
+  enemyControllers: []
 --- !u!4 &821999514
 Transform:
   m_ObjectHideFlags: 0
@@ -500,6 +502,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &821999515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 821999512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b01aaa03caf90b43a560d142bdb5f59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &988693213 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4760269979686182, guid: 506c8320753d9874faf112ef7e372867,
