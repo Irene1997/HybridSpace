@@ -11,6 +11,8 @@ public class GameController : MonoBehaviour {
     [SerializeField]
     EnemyController[] enemyControllers;
 
+    public DoorScript[] doors;
+
     // Use this for initialization
     void Start() {
         instance = this;

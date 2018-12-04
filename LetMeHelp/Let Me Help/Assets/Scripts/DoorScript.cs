@@ -21,7 +21,7 @@ public class DoorScript : MonoBehaviour {
             SetClosed();
         }
         //For testing purposes
-        Open();
+        //Open();
     }
 
     // Update is called once per frame
@@ -48,13 +48,13 @@ public class DoorScript : MonoBehaviour {
         }
     }
 
-    void SetOpen() {
+    public void SetOpen() {
         state = State.Open;
         doorScale.y = 0f;
         transform.parent.localScale = doorScale;
     }
 
-    void SetClosed() {
+    public void SetClosed() {
         state = State.Closed;
         doorScale.y = 1f;
         transform.parent.localScale = doorScale;

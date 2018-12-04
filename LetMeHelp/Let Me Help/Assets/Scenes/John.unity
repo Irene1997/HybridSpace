@@ -190,6 +190,12 @@ Transform:
   m_Father: {fileID: 1299965717}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &105491442 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114247644792943224, guid: 506c8320753d9874faf112ef7e372867,
+    type: 2}
+  m_PrefabInternal: {fileID: 732142110}
+  m_Script: {fileID: 11500000, guid: 97c55135cab64ff42a46adf846f363ed, type: 3}
 --- !u!1 &126572581
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,6 +495,8 @@ MonoBehaviour:
   player: {fileID: 1299965713}
   enemies: {fileID: 1325303443}
   enemyControllers: []
+  doors:
+  - {fileID: 105491442}
 --- !u!4 &821999514
 Transform:
   m_ObjectHideFlags: 0

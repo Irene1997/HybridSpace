@@ -1,11 +1,13 @@
 #include <SoftwareSerial.h>
 #include <SerialCommand.h>
 
+#define MagnetPin 2
+
 SerialCommand sCmd;
 
+int state = 0, prevState = 0;
+
 void setup() {
-  pinMode(LED_BUILTIN, OUTPUT); 
-  
   Serial.begin(9600);
   while (!Serial);
 
@@ -15,12 +17,23 @@ void setup() {
   sCmd.addCommand("LED_OFF", led_off);
   sCmd.addDefaultHandler(errorHandler);
 
-  
+  pinMode(MagnetPin, INPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
 }
 
 void loop() {
-  
   // Your operations here
+  state = digitalRead(MagnetPin);
+  if (state != prevState){
+    if (state == HIGH){
+      led_off();
+      Serial.println("Open");
+    } else {
+      led_on();
+      Serial.println("Close");
+    }
+    prevState = state;
+  }
 
   if (Serial.available() > 0)
     sCmd.readSerial();

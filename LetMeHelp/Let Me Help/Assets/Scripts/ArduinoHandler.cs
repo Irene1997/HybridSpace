@@ -16,7 +16,7 @@ public class ArduinoHandler : MonoBehaviour {
 
     public void Start() {
         Open();
-        StartCoroutine(AsynchronousReadFromArduino((string s) => Debug.Log(s), () => Debug.LogError("Error!"), 10000f));
+        StartCoroutine(AsynchronousReadFromArduino((string s) => ReadMessage(s), () => Debug.LogError("Error!"), 10000f));
     }
 
     public void Open() {
@@ -25,10 +25,25 @@ public class ArduinoHandler : MonoBehaviour {
         stream.ReadTimeout = 50;
         stream.Open();
         //this.stream.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
-        WriteToArduino("PING");
-        WriteToArduino("ECHO echo");
-        WriteToArduino("LED_ON");
-        WriteToArduino("TEST");
+
+        //WriteToArduino("PING");
+        //WriteToArduino("ECHO echo");
+        //WriteToArduino("LED_OFF");
+        //WriteToArduino("ERRORTEST");
+    }
+
+    void ReadMessage(string message) {
+        Debug.Log("Received '" + message + "' from the Arduino.");
+        switch (message) {
+            case "Open":
+                GameController.Instance.doors[0].Open();
+                break;
+            case "Closed":
+                GameController.Instance.doors[0].Close();
+                break;
+            default:
+                break;
+        }
     }
 
     public void WriteToArduino(string message) {
@@ -77,7 +92,8 @@ public class ArduinoHandler : MonoBehaviour {
         yield return null;
     }
 
-    public void Close() {
+    public void OnApplicationQuit() {
+        Debug.Log("Closing Arduino connection...");
         stream.Close();
     }
 }
