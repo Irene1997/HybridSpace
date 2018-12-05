@@ -13,6 +13,7 @@ void setup() {
 
   sCmd.addCommand("PING", pingHandler);
   sCmd.addCommand("ECHO", echoHandler);
+  sCmd.addCommand("ASK_STATE", ask_state);
   sCmd.addCommand("LED_ON", led_on);
   sCmd.addCommand("LED_OFF", led_off);
   sCmd.addDefaultHandler(errorHandler);
@@ -39,6 +40,18 @@ void loop() {
     sCmd.readSerial();
 
   delay(50);  
+}
+
+void ask_state(){
+  state = digitalRead(MagnetPin);
+  if (state == HIGH){
+    led_off();
+    Serial.println("Open");
+  } else {
+    led_on();
+    Serial.println("Close");
+  }
+  prevState = state;
 }
 
 void led_on(){

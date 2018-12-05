@@ -24,6 +24,7 @@ public class ArduinoHandler : MonoBehaviour {
         stream = new SerialPort(port, baudrate);
         stream.ReadTimeout = 50;
         stream.Open();
+        WriteToArduino("ASK_STATE");
         //this.stream.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
 
         //WriteToArduino("PING");
@@ -38,7 +39,7 @@ public class ArduinoHandler : MonoBehaviour {
             case "Open":
                 GameController.Instance.doors[0].Open();
                 break;
-            case "Closed":
+            case "Close":
                 GameController.Instance.doors[0].Close();
                 break;
             default:
