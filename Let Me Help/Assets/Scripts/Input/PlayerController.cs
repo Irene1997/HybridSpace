@@ -4,6 +4,7 @@ public class PlayerController : MonoBehaviour
 {
 	public Camera camera;
     public Transform leftWheel, rightWheel;
+    public float rotationMultiplier, movementMultiplier;
 
 
 	Rigidbody rigidbody;
@@ -30,8 +31,8 @@ public class PlayerController : MonoBehaviour
 
 
 
-        float rotation = (left - right) * .1f;
-        float movement = (left + right) * 1f;
+        float rotation = (left - right) * rotationMultiplier;
+        float movement = (left + right) * movementMultiplier;
 
         Debug.Log("Left: " + left + " Right: " + right);
 
