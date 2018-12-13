@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
         float rotation = (left - right) * rotationMultiplier;
         float movement = (left + right) * movementMultiplier;
 
-        Debug.Log("Left: " + left + " Right: " + right);
+        //Debug.Log("Left: " + left + " Right: " + right);
 
         rigidbody.AddTorque(Vector3.up * rotation);
         rigidbody.AddRelativeForce(Vector3.forward * movement);

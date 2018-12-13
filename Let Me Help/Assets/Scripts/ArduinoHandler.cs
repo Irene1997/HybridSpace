@@ -20,7 +20,7 @@ public class ArduinoHandler : MonoBehaviour {
         foreach (string port in ports) {
             Arduino arduino = Arduino.StartArduino(port, port);
             if (arduino != null) {
-                StartCoroutine(arduino.Coroutine((string s) => ReadMessage(port + s)));
+                StartCoroutine(arduino.AsynchronousReadFromArduino((string s) => ReadMessage(port + s)));
                 arduinos.Add(new KeyValuePair<string, Arduino>(port, arduino));
             }
         }
@@ -34,10 +34,10 @@ public class ArduinoHandler : MonoBehaviour {
     void ReadMessage(string message) {
         Debug.Log("Received '" + message + "' from an Arduino.");
         switch (message) {
-            case "COM3Open":
+            case "COM5Open":
                 GameController.Instance.doors[0].Open();
                 break;
-            case "COM3Close":
+            case "COM5Close":
                 GameController.Instance.doors[0].Close();
                 break;
             case "COM4Open":
@@ -87,12 +87,12 @@ class Arduino {
         stream.BaseStream.Flush();
     }
 
-    public IEnumerator Coroutine(Action<string> callback) {
-        return AsynchronousReadFromArduino(stream, callback, () => Debug.LogError("Error!"), 10000f);
-    }
+    //public IEnumerator Coroutine(Action<string> callback) {
+    //    return AsynchronousReadFromArduino(stream, callback, () => Debug.LogError("Error!"), 10000f);
+    //}
 
 
-    IEnumerator AsynchronousReadFromArduino(SerialPort stream, Action<string> callback, Action fail = null, float timeout = float.PositiveInfinity) {
+    public IEnumerator AsynchronousReadFromArduino(Action<string> callback, Action fail = null, float timeout = float.PositiveInfinity) {
         DateTime initialTime = DateTime.Now;
         DateTime nowTime;
         TimeSpan diff = default(TimeSpan);
