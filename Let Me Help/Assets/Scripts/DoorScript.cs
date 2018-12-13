@@ -9,38 +9,39 @@ public class DoorScript : MonoBehaviour {
     [SerializeField]
     State state;
     public float speed;
-    public Vector3 doorScale;
+    public float openProgress;
     public bool startOpen;
+
+    Vector3 closedPosition, openVector;
 
     // Use this for initialization
     void Start() {
-        doorScale = transform.parent.localScale;
+        closedPosition = transform.position;
+        openVector = Vector3.down * transform.lossyScale.y;
         if (startOpen) {
             SetOpen();
         } else {
             SetClosed();
         }
-        //For testing purposes
-        //Open();
     }
 
     // Update is called once per frame
     void Update() {
         switch (state) {
             case State.Opening:
-                doorScale.y -= speed * Time.deltaTime;
-                if (doorScale.y <= 0f) {
+                openProgress += speed * Time.deltaTime;
+                if (openProgress >= 1f) {
                     SetOpen();
                 } else {
-                    transform.parent.localScale = doorScale;
+                    transform.position = closedPosition + openVector * openProgress;
                 }
                 break;
             case State.Closing:
-                doorScale.y += speed * Time.deltaTime;
-                if (doorScale.y >= 1f) {
+                openProgress -= speed * Time.deltaTime;
+                if (openProgress <= 0f) {
                     SetClosed();
                 } else {
-                    transform.parent.localScale = doorScale;
+                    transform.position = closedPosition + openVector * openProgress;
                 }
                 break;
             default:
@@ -50,14 +51,14 @@ public class DoorScript : MonoBehaviour {
 
     public void SetOpen() {
         state = State.Open;
-        doorScale.y = 0f;
-        transform.parent.localScale = doorScale;
+        openProgress = 1f;
+        transform.position = closedPosition + openVector;
     }
 
     public void SetClosed() {
         state = State.Closed;
-        doorScale.y = 1f;
-        transform.parent.localScale = doorScale;
+        openProgress = 0f;
+        transform.position = closedPosition;
     }
 
     public void Open() {
