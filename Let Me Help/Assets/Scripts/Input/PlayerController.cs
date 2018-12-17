@@ -21,8 +21,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         UpdateMovement();
-        UpdateHP();
-
     }
 
     void OnCollisionEnter(Collision col)
@@ -74,5 +72,6 @@ public class PlayerController : MonoBehaviour
     public void Damage(int enemyDamage)
     {
         playerHP -= enemyDamage;
+        UpdateHP();
     }
 }
