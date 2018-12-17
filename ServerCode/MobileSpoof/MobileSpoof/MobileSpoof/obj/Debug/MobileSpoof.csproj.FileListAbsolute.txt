@@ -1,0 +1,7 @@
+C:\Users\Jelle\Documents\University\HKU\HybridSpace\QRTag\ServerCode\MobileSpoof\MobileSpoof\MobileSpoof\bin\Debug\MobileSpoof.exe.config
+C:\Users\Jelle\Documents\University\HKU\HybridSpace\QRTag\ServerCode\MobileSpoof\MobileSpoof\MobileSpoof\bin\Debug\MobileSpoof.exe
+C:\Users\Jelle\Documents\University\HKU\HybridSpace\QRTag\ServerCode\MobileSpoof\MobileSpoof\MobileSpoof\bin\Debug\MobileSpoof.pdb
+C:\Users\Jelle\Documents\University\HKU\HybridSpace\QRTag\ServerCode\MobileSpoof\MobileSpoof\MobileSpoof\obj\Debug\MobileSpoof.csprojResolveAssemblyReference.cache
+C:\Users\Jelle\Documents\University\HKU\HybridSpace\QRTag\ServerCode\MobileSpoof\MobileSpoof\MobileSpoof\obj\Debug\MobileSpoof.csproj.CoreCompileInputs.cache
+C:\Users\Jelle\Documents\University\HKU\HybridSpace\QRTag\ServerCode\MobileSpoof\MobileSpoof\MobileSpoof\obj\Debug\MobileSpoof.exe
+C:\Users\Jelle\Documents\University\HKU\HybridSpace\QRTag\ServerCode\MobileSpoof\MobileSpoof\MobileSpoof\obj\Debug\MobileSpoof.pdb
