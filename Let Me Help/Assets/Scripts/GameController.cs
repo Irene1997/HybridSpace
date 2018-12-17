@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
     static GameController instance;
@@ -56,7 +57,7 @@ public class GameController : MonoBehaviour {
 
     public void PlayerDied()
     {
-
+        SceneManager.LoadScene(0);
     }
 
     //Get Set

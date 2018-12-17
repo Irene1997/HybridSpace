@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -22,6 +23,15 @@ public class PlayerController : MonoBehaviour
         UpdateMovement();
         UpdateHP();
 
+    }
+
+    void OnCollisionEnter(Collision col)
+    {
+        Debug.Log("coll: " + col.gameObject.tag);
+        if (col.gameObject.tag == "Finish")
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     /// <summary>
