@@ -97,6 +97,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc13309514466de43b1b27db2f66570a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destination: {x: 0, y: 0, z: 0}
+  patrolArea:
+    topLeftCorner: {x: 0, y: 0, z: 0}
+    botLeftCorner: {x: 0, y: 0, z: 0}
+    topRightCorner: {x: 0, y: 0, z: 0}
+    botRightCorner: {x: 0, y: 0, z: 0}
+    patrolPoints: []
+  searchTime: 5
+  patrolCatchDistance: 5
+  sightAngle: 360
 --- !u!135 &135910414161222942
 SphereCollider:
   m_ObjectHideFlags: 1

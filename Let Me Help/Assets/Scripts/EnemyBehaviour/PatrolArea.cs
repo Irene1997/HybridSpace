@@ -5,6 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Designates a patrol area and an array of patrol points for a monster
 /// </summary>
+[System.Serializable]
 public class PatrolArea
 {
     public Vector3 topLeftCorner; //z max x min

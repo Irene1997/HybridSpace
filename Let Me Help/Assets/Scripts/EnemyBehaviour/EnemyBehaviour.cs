@@ -5,9 +5,12 @@ using UnityEngine.AI;
 
 public class EnemyBehaviour : MonoBehaviour
 {
+    public enum CurrentState { Patrol, Chase, Search }
 
     NavMeshAgent agent;
 
+    [SerializeField]
+    Vector3 destination;
     public PatrolArea patrolArea;
     int patrolPointer;
     float searchTimer;
@@ -32,6 +35,7 @@ public class EnemyBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        destination = agent.destination;
         //agent.SetDestination(GameController.Instance.player.transform.position);
         switch (currentState)
         {
@@ -66,6 +70,7 @@ public class EnemyBehaviour : MonoBehaviour
         //if the player is in the patrol area of this enemy, go into chase state
         if(IsEntityInPatrolArea(gameController.player.transform))
         {
+            Debug.Log("Chasin' Player");
             currentState = CurrentState.Chase;
         }
     }
@@ -77,8 +82,9 @@ public class EnemyBehaviour : MonoBehaviour
     {
         ChasePlayer();
 
-        if (!IsEntityInPatrolArea(transform))
+        if (!IsEntityInPatrolArea(gameController.player.transform))
         {
+            Debug.Log("Searching for player");
             currentState = CurrentState.Search;
         }
     }
@@ -99,6 +105,7 @@ public class EnemyBehaviour : MonoBehaviour
         //If the player is in the patrol area, go back to the chase state
         if(IsEntityInPatrolArea(gameController.player.transform))
         {
+            Debug.Log("Player is back in my patrol area");
             currentState = CurrentState.Chase;
             Chase();
             return;
@@ -116,6 +123,8 @@ public class EnemyBehaviour : MonoBehaviour
 
             if (searchTimer >= searchTime)
             {
+                Debug.Log("Lost the player :(");
+
                 currentState = CurrentState.Patrol;
                 Patrol();
                 return;
@@ -177,6 +186,4 @@ public class EnemyBehaviour : MonoBehaviour
             return false;
         }
     }
-
-    public enum CurrentState { Patrol, Chase, Search}
 }
