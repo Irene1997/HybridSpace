@@ -27,8 +27,9 @@ public class ArduinoHandler : MonoBehaviour {
             if (nextName < names.Length) {
                 Arduino arduino = Arduino.StartArduino(names[nextName], port, readTimeout, readDelay);
                 if (arduino != null) {
-                    StartCoroutine(arduino.AsynchronousReadFromArduino((string s) => ReadMessage(names[nextName] + s)));
-                    arduinos.Add(new KeyValuePair<string, Arduino>(names[nextName], arduino));
+                    string name = names[nextName];
+                    StartCoroutine(arduino.AsynchronousReadFromArduino((string s) => ReadMessage(name + s)));
+                    arduinos.Add(new KeyValuePair<string, Arduino>(name, arduino));
                     nextName++;
                 }
             }
