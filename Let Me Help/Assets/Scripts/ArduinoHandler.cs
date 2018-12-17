@@ -13,6 +13,10 @@ public class ArduinoHandler : MonoBehaviour {
     /* The baudrate of the serial port. */
     [Tooltip("The baudrate of the serial port")]
     public int baudrate = 9600;
+    [Tooltip("The ReadTimeout of the streams in milliseconds")]
+    public int readTimeout = 1;
+    [Tooltip("The read delay after a failed read attempt in seconds")]
+    public float readDelay = 0.05f;
 
     IDictionary<string, Arduino> arduinos;
 
@@ -21,7 +25,7 @@ public class ArduinoHandler : MonoBehaviour {
         int nextName = 0;
         foreach (string port in ports) {
             if (nextName < names.Length) {
-                Arduino arduino = Arduino.StartArduino(names[nextName], port);
+                Arduino arduino = Arduino.StartArduino(names[nextName], port, readTimeout, readDelay);
                 if (arduino != null) {
                     StartCoroutine(arduino.AsynchronousReadFromArduino((string s) => ReadMessage(names[nextName] + s)));
                     arduinos.Add(new KeyValuePair<string, Arduino>(names[nextName], arduino));
@@ -63,23 +67,25 @@ public class ArduinoHandler : MonoBehaviour {
 class Arduino {
     public string name, port;
     public SerialPort stream;
+    float readDelay;
 
-    public static Arduino StartArduino(string name, string port, int baudrate = 9600) {
+    public static Arduino StartArduino(string name, string port, int readTimeout, float readDelay, int baudrate = 9600) {
         SerialPort stream;
         try {
-            stream = new SerialPort(port, baudrate) { ReadTimeout = 15 };
+            stream = new SerialPort(port, baudrate) { ReadTimeout = readTimeout };
             stream.Open();
-            return new Arduino(name, port, stream);
+            return new Arduino(name, port, stream, readDelay);
         } catch (Exception e) {
             Debug.LogWarning(e);
             return null;
         }
     }
 
-    Arduino(string name, string port, SerialPort stream) {
+    Arduino(string name, string port, SerialPort stream, float readDelay) {
         this.name = name;
         this.port = port;
         this.stream = stream;
+        this.readDelay = readDelay;
     }
 
     public void Write(string message) {
@@ -97,21 +103,26 @@ class Arduino {
         DateTime nowTime;
         TimeSpan diff = default(TimeSpan);
 
-        string dataString = null;
+        string dataString = "";
+        int readChar = -1;
 
         do {
             // A single read attempt
             try {
-                dataString = stream.ReadLine();
+                readChar = stream.ReadByte();
             } catch (TimeoutException) {
-                dataString = null;
+                readChar = -1;
             }
-
-            if (dataString != null) {
-                callback(dataString);
+            if (readChar == -1) {
+                yield return new WaitForSeconds(readDelay);
+            } else {
+                dataString += (char)readChar;
+                if (dataString.EndsWith(stream.NewLine)) {
+                    callback(dataString.TrimEnd('\r','\n'));
+                    dataString = "";
+                }
                 yield return null;
-            } else
-                yield return new WaitForSeconds(0.01f);
+            }
 
             nowTime = DateTime.Now;
             diff = nowTime - initialTime;

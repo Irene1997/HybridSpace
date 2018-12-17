@@ -452,7 +452,13 @@ MonoBehaviour:
   ports:
   - COM3
   - COM4
+  - COM5
+  names:
+  - ARD1
+  - ARD2
   baudrate: 9600
+  readTimeout: 1
+  readDelay: 0.05
 --- !u!4 &883700789 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4760269979686182, guid: 506c8320753d9874faf112ef7e372867,
