@@ -16,6 +16,7 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         enemies = GetComponentsInChildren<EnemyBehaviour>();
+        RedistributePatrolPaths();
     }
 
     // Update is called once per frame

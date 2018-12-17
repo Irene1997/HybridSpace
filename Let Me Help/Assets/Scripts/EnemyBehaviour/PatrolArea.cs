@@ -7,10 +7,10 @@ using UnityEngine;
 /// </summary>
 public class PatrolArea
 {
-    public Transform topLeftCorner;
-    public Transform botLeftCorner;
-    public Transform topRightCorner;
-    public Transform botRightCorner;
+    public Vector3 topLeftCorner; //z max x min
+    public Vector3 botLeftCorner; //z min x min
+    public Vector3 topRightCorner; //z max x max
+    public Vector3 botRightCorner; //z min x max
 
-    public Transform[] patrolPoints;
+    public Vector3[] patrolPoints;
 }
