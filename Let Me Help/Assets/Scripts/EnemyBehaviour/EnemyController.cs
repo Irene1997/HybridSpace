@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public List<Transform[]> patrolPaths;
+    public List<PatrolArea> patrolAreas;
     EnemyBehaviour[] enemies;
     float patrolTimer;
     [SerializeField]
@@ -26,18 +26,21 @@ public class EnemyController : MonoBehaviour
         if(patrolTimer<0) { RedistributePatrolPaths(); patrolTimer = Random.Range(patrolTimerMin, patrolTimerMax); }
     }
 
+    /// <summary>
+    /// Gives enemies new patrol paths
+    /// </summary>
     void RedistributePatrolPaths()
     {
-        if (patrolPaths.Count < enemies.Length)
+        if (patrolAreas.Count < enemies.Length)
         {
             throw new System.ArgumentException("There can never be less patrol paths than enemies");
         }
 
-        ListShuffle(patrolPaths);
+        ListShuffle(patrolAreas);
 
         for (int i = 0; i < enemies.Length; i++)
         {
-            enemies[i].patrolPoints = patrolPaths[i];
+            enemies[i].patrolArea = patrolAreas[i];
         }
     }
 

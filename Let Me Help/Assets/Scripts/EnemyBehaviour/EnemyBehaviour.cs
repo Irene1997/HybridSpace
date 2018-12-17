@@ -7,7 +7,7 @@ public class EnemyBehaviour : MonoBehaviour {
     
     NavMeshAgent agent;
 
-    public Transform[] patrolPoints;
+    public PatrolArea patrolArea;
     int patrolPointer;
 
 	// Use this for initialization
@@ -20,16 +20,25 @@ public class EnemyBehaviour : MonoBehaviour {
         agent.SetDestination(GameController.Instance.player.transform.position);
 	}
 
+    /// <summary>
+    /// Enemy moves around through it's patrol zone
+    /// </summary>
     void Patrol()
     {
-
+        
     }
 
+    /// <summary>
+    /// Enemy chases player
+    /// </summary>
     void Chase()
     {
 
     }
 
+    /// <summary>
+    /// Enemy chases player, unless the player has been out of Line Of Sight for a certain time, then it goes back to patrol
+    /// </summary>
     void Search()
     {
 
