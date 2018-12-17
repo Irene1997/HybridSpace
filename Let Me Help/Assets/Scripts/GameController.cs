@@ -5,7 +5,12 @@ using UnityEngine;
 public class GameController : MonoBehaviour {
     static GameController instance;
 
+    //public enum PlayerState { Alive, Dead };
+
+
     public GameObject player;
+    //public PlayerState playerState;
+
     public GameObject enemies;
 
     [SerializeField]
@@ -15,9 +20,12 @@ public class GameController : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+
+        //load player and enemies
         instance = this;
         if (player == null) {
             player = GameObject.Find("PLayer");
+            //playerState = PlayerState.Alive;
             if (player == null) { Debug.LogWarning("No player could be found."); }
         }
         if (enemies == null) {
@@ -45,4 +53,20 @@ public class GameController : MonoBehaviour {
             return instance;
         }
     }
+
+    public void PlayerDied()
+    {
+
+    }
+
+    //Get Set
+
+    //PlayerState ChangePlayerState {
+    //    get {
+    //        return playerState;
+    //    }
+    //    set {
+    //        playerState = value;
+    //    }
+    //}
 }
