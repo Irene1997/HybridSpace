@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour {
     public GameObject enemies;
 
     [SerializeField]
-    EnemyController[] enemyControllers;
+    EnemyBehaviour[] enemyControllers;
 
     public DoorScript[] doors;
 
@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour {
             enemies = GameObject.Find("Enemies");
             if (enemies == null) { Debug.LogWarning("No enemies could be found."); }
         }
-        enemyControllers = enemies.GetComponentsInChildren<EnemyController>();
+        enemyControllers = enemies.GetComponentsInChildren<EnemyBehaviour>();
     }
 
     // Update is called once per frame

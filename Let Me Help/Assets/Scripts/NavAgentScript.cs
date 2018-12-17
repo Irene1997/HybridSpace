@@ -30,6 +30,7 @@ public class NavAgentScript : MonoBehaviour
     float timer, lastSeen;
     float eatTime;
     bool waiting;
+    GameController gameController;
 
     /*bool nowPlaying = false;
     AudioSource a = new AudioSource();
@@ -39,6 +40,7 @@ public class NavAgentScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        gameController = GameController.Instance;
         patrolPointer = Random.Range(1, 4);
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         itself = GetComponent<Transform>();
@@ -47,25 +49,6 @@ public class NavAgentScript : MonoBehaviour
         resetPosition = transform.position;
         resetRotation = transform.rotation;
         eatTime = 0;
-        switch (GameController.Difficulty)
-        {
-            default:
-            case 0:
-                //normal
-                break;
-            case 1:
-                //hard
-                sightAngle = hardSightAngle;
-                looseOfSightAngle = hardLooseOfSightAngle;
-                sightLoseTime = hardSightLoseTime;
-                break;
-            case 2:
-                //insane
-                sightAngle = insaneSightAngle;
-                looseOfSightAngle = insaneLooseOfSightAngle;
-                sightLoseTime = insaneSightLoseTime;
-                break;
-        }
         /*
                 a.clip = PatrolClip;
                 b.clip = ChaseClip;
@@ -75,26 +58,27 @@ public class NavAgentScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == GameController.player)
+        if (other.gameObject == gameController.player)
         {
-            GameController.player.GetComponent<livesScript>().Damage();
+            //Player dies or something
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (spookyTimer > 50)
-        {
-            // AudioSource.PlayClipAtPoint(spookyNoSeeYou, targetPosition.position, 0.6f);
-            if (!GameController.player.GetComponent<AudioSource>().isPlaying)
-                GameController.player.GetComponent<AudioSource>().Play();
-            spookyTimer = 0;
-        }
-        if (eatTime > 0)
-        {
-            eatTime -= Time.deltaTime;
-        }
+        //if (spookyTimer > 50)
+        //{
+        //    // AudioSource.PlayClipAtPoint(spookyNoSeeYou, targetPosition.position, 0.6f);
+        //    if (!gameController.player.GetComponent<AudioSource>().isPlaying)
+        //        gameController.player.GetComponent<AudioSource>().Play();
+        //    spookyTimer = 0;
+        //}
+
+        //if (eatTime > 0)
+        //{
+        //    eatTime -= Time.deltaTime;
+        //}
 
         if (Time.time >= timer && waiting)
         {
