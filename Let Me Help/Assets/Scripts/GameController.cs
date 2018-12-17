@@ -60,6 +60,9 @@ public class GameController : MonoBehaviour {
         SceneManager.LoadScene(0);
     }
 
+
+
+
     //Get Set
 
     //PlayerState ChangePlayerState {
