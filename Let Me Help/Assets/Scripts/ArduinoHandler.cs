@@ -5,24 +5,23 @@ using System;
 using System.IO.Ports;
 
 public class ArduinoHandler : MonoBehaviour {
-    /* The serial port where the Arduino is connected. */
-    [Tooltip("The serial ports where the Arduinos are connected")]
-    public string[] ports = { "COM3", "COM4", "COM5" };
     [Tooltip("The names of the Aruinos")]
     public string[] names = { "ARD1", "ARD2" };
-    /* The baudrate of the serial port. */
     [Tooltip("The baudrate of the serial port")]
     public int baudrate = 9600;
     [Tooltip("The ReadTimeout of the streams in milliseconds")]
     public int readTimeout = 1;
     [Tooltip("The read delay after a failed read attempt in seconds")]
     public float readDelay = 0.05f;
-
+    // The dictionary containing all created Arduino connections by name
     IDictionary<string, Arduino> arduinos;
 
     public void Start() {
         arduinos = new Dictionary<string, Arduino>();
         int nextName = 0;
+        // Get all connected ports
+        string[] ports = SerialPort.GetPortNames();
+        // Try to make a connection to an Arduino for each port
         foreach (string port in ports) {
             if (nextName < names.Length) {
                 Arduino arduino = Arduino.StartArduino(names[nextName], port, readTimeout, readDelay);
@@ -36,12 +35,14 @@ public class ArduinoHandler : MonoBehaviour {
 
         }
 
+        // Send initializing commands to each Arduino
         foreach (Arduino arduino in arduinos.Values) {
             arduino.Write("LED_ON");
             arduino.Write("ASK_STATE");
         }
     }
 
+    // Handle incomming messages from the Aruinos
     void ReadMessage(string message) {
         Debug.Log("Received '" + message + "' from an Arduino.");
         if (message == names[0] + "Open") {
@@ -57,6 +58,7 @@ public class ArduinoHandler : MonoBehaviour {
         }
     }
 
+    // Close connections on exit
     public void OnApplicationQuit() {
         Debug.Log("Closing Arduino connections...");
         foreach (Arduino arduino in arduinos.Values) {
@@ -70,6 +72,7 @@ class Arduino {
     public SerialPort stream;
     float readDelay;
 
+    // Returns an Arduino instance if a connection with the port could be made
     public static Arduino StartArduino(string name, string port, int readTimeout, float readDelay, int baudrate = 9600) {
         SerialPort stream;
         try {
@@ -82,6 +85,7 @@ class Arduino {
         }
     }
 
+    // The constructor for the Arduino class
     Arduino(string name, string port, SerialPort stream, float readDelay) {
         this.name = name;
         this.port = port;
@@ -89,16 +93,13 @@ class Arduino {
         this.readDelay = readDelay;
     }
 
+    // Write a message to the Arduino
     public void Write(string message) {
         stream.WriteLine(message);
         stream.BaseStream.Flush();
     }
 
-    //public IEnumerator Coroutine(Action<string> callback) {
-    //    return AsynchronousReadFromArduino(stream, callback, () => Debug.LogError("Error!"), 10000f);
-    //}
-
-
+    // Reads messages from the stream
     public IEnumerator AsynchronousReadFromArduino(Action<string> callback, Action fail = null, float timeout = float.PositiveInfinity) {
         DateTime initialTime = DateTime.Now;
         DateTime nowTime;
@@ -108,7 +109,7 @@ class Arduino {
         int readChar = -1;
 
         do {
-            // A single read attempt
+            // Tries to read a character
             try {
                 readChar = stream.ReadByte();
             } catch (TimeoutException) {
@@ -118,6 +119,7 @@ class Arduino {
                 yield return new WaitForSeconds(readDelay);
             } else {
                 dataString += (char)readChar;
+                // Executes the callback if the line has ended
                 if (dataString.EndsWith(stream.NewLine)) {
                     callback(dataString.TrimEnd('\r','\n'));
                     dataString = "";
@@ -135,6 +137,7 @@ class Arduino {
         yield return null;
     }
 
+    // Closes the stream
     public void Close() {
         stream.Close();
     }
