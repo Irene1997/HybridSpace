@@ -7,7 +7,9 @@ using System.IO.Ports;
 public class ArduinoHandler : MonoBehaviour {
     /* The serial port where the Arduino is connected. */
     [Tooltip("The serial ports where the Arduinos are connected")]
-    public string[] ports = { "COM3", "COM4" };
+    public string[] ports = { "COM3", "COM4", "COM5" };
+    [Tooltip("The names of the Aruinos")]
+    public string[] names = { "ARD1", "ARD2" };
     /* The baudrate of the serial port. */
     [Tooltip("The baudrate of the serial port")]
     public int baudrate = 9600;
@@ -16,13 +18,17 @@ public class ArduinoHandler : MonoBehaviour {
 
     public void Start() {
         arduinos = new Dictionary<string, Arduino>();
-
+        int nextName = 0;
         foreach (string port in ports) {
-            Arduino arduino = Arduino.StartArduino(port, port);
-            if (arduino != null) {
-                StartCoroutine(arduino.AsynchronousReadFromArduino((string s) => ReadMessage(port + s)));
-                arduinos.Add(new KeyValuePair<string, Arduino>(port, arduino));
+            if (nextName < names.Length) {
+                Arduino arduino = Arduino.StartArduino(names[nextName], port);
+                if (arduino != null) {
+                    StartCoroutine(arduino.AsynchronousReadFromArduino((string s) => ReadMessage(names[nextName] + s)));
+                    arduinos.Add(new KeyValuePair<string, Arduino>(names[nextName], arduino));
+                    nextName++;
+                }
             }
+
         }
 
         foreach (Arduino arduino in arduinos.Values) {
@@ -33,22 +39,16 @@ public class ArduinoHandler : MonoBehaviour {
 
     void ReadMessage(string message) {
         Debug.Log("Received '" + message + "' from an Arduino.");
-        switch (message) {
-            case "COM5Open":
-                GameController.Instance.doors[0].Open();
-                break;
-            case "COM5Close":
-                GameController.Instance.doors[0].Close();
-                break;
-            case "COM4Open":
-                GameController.Instance.doors[1].Open();
-                break;
-            case "COM4Close":
-                GameController.Instance.doors[1].Close();
-                break;
-            default:
-                Debug.Log("Message '" + message + "' could not be processed.");
-                break;
+        if (message == names[0] + "Open") {
+            GameController.Instance.doors[0].Open();
+        } else if (message == names[0] + "Close") {
+            GameController.Instance.doors[0].Close();
+        } else if (message == names[1] + "Open") {
+            GameController.Instance.doors[1].Open();
+        } else if (message == names[1] + "Close") {
+            GameController.Instance.doors[1].Close();
+        } else {
+            Debug.Log("Message '" + message + "' could not be processed.");
         }
     }
 
@@ -67,7 +67,7 @@ class Arduino {
     public static Arduino StartArduino(string name, string port, int baudrate = 9600) {
         SerialPort stream;
         try {
-            stream = new SerialPort(port, baudrate) { ReadTimeout = 50 };
+            stream = new SerialPort(port, baudrate) { ReadTimeout = 15 };
             stream.Open();
             return new Arduino(name, port, stream);
         } catch (Exception e) {
@@ -111,7 +111,7 @@ class Arduino {
                 callback(dataString);
                 yield return null;
             } else
-                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForSeconds(0.01f);
 
             nowTime = DateTime.Now;
             diff = nowTime - initialTime;
