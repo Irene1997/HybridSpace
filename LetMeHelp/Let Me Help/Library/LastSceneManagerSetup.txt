@@ -1,4 +1,0 @@
-sceneSetups:
-- path: D:/Hylia/Documents/Uni zooi/HKU/HybridSpace/Let Me Help/Assets/Scenes/John.unity
-  isLoaded: 1
-  isActive: 1
