@@ -9,7 +9,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     NavMeshAgent agent;
 
-    [SerializeField]
+    //[SerializeField]
     Vector3 destination;
     public PatrolArea patrolArea;
     int patrolPointer;
@@ -30,6 +30,7 @@ public class EnemyBehaviour : MonoBehaviour
         agent = gameObject.GetComponent<NavMeshAgent>();
         patrolPointer = 0;
         gameController = GameController.Instance;
+        currentState = CurrentState.Patrol;
     }
 
     // Update is called once per frame
@@ -51,20 +52,37 @@ public class EnemyBehaviour : MonoBehaviour
     /// </summary>
     void Patrol()
     {
+        agent.destination = patrolArea.patrolPoints[patrolPointer].position;
+        //agent.SetDestination(patrolArea.patrolPoints[patrolPointer].position);
+        //agent.destination = Vector3.zero;
+
+        //Vector3 newStuffIHATEYOU = new Vector3(patrolArea.patrolPoints[patrolPointer].position.x, patrolArea.patrolPoints[patrolPointer].position.y, patrolArea.patrolPoints[patrolPointer].position.z);
+        //agent.destination = newStuffIHATEYOU;
+
+        Debug.Log("My Destination is: " + agent.destination);
+        Debug.Log("My patrol point is: " + patrolArea.patrolPoints[patrolPointer].position);
+
+
+
         if (patrolArea == null)
         { Debug.Log("I don't have a patrol area :("); return; }
 
         //If close enough to patrol point, set destination to next patrol point in scene
-        if (agent.remainingDistance <= patrolCatchDistance)
+        if (Vector3.Distance(transform.position,agent.destination) <= patrolCatchDistance)
         {
+            //Debug.Log(agent.destination);
+            Debug.Log(transform.position);
+            //Debug.Log(patrolArea.patrolPoints[patrolPointer].position);
+            Debug.Log("Yay I am at my DESTINATION.");
             patrolPointer++;
 
             if (patrolPointer >= patrolArea.patrolPoints.Length)
             {
+                Debug.Log("Going back to the start!");
                 patrolPointer = 0;
             }
 
-            agent.destination = patrolArea.patrolPoints[patrolPointer];
+            //agent.destination = patrolArea.patrolPoints[patrolPointer].position;
         }
 
         //if the player is in the patrol area of this enemy, go into chase state
@@ -126,6 +144,8 @@ public class EnemyBehaviour : MonoBehaviour
                 Debug.Log("Lost the player :(");
 
                 currentState = CurrentState.Patrol;
+                agent.destination = patrolArea.patrolPoints[patrolPointer].position;
+
                 Patrol();
                 return;
             }
@@ -141,10 +161,10 @@ public class EnemyBehaviour : MonoBehaviour
     {
         Vector3 pos = entity.position;
 
-        float leftBound = Mathf.Min(patrolArea.topLeftCorner.x, patrolArea.botLeftCorner.x);
-        float rightBound = Mathf.Max(patrolArea.topRightCorner.x, patrolArea.botRightCorner.x);
-        float topBound = Mathf.Max(patrolArea.topLeftCorner.z, patrolArea.topRightCorner.z);
-        float botBound = Mathf.Min(patrolArea.botLeftCorner.z, patrolArea.botRightCorner.z);
+        float leftBound = Mathf.Min(patrolArea.topLeftCorner.position.x, patrolArea.botLeftCorner.position.x);
+        float rightBound = Mathf.Max(patrolArea.topRightCorner.position.x, patrolArea.botRightCorner.position.x);
+        float topBound = Mathf.Max(patrolArea.topLeftCorner.position.z, patrolArea.topRightCorner.position.z);
+        float botBound = Mathf.Min(patrolArea.botLeftCorner.position.z, patrolArea.botRightCorner.position.z);
 
         return (entity.position.x >= leftBound && entity.position.x <= rightBound && entity.position.z >= botBound && entity.position.z <= topBound) ;
     }
