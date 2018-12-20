@@ -36,8 +36,8 @@ public class EnemyBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        destination = agent.destination;
-        //agent.SetDestination(GameController.Instance.player.transform.position);
+        //destination = agent.destination;
+        Debug.Log(agent.SetDestination(GameController.Instance.player.transform.position)); 
         switch (currentState)
         {
             case CurrentState.Patrol: Patrol(); break;
@@ -52,18 +52,11 @@ public class EnemyBehaviour : MonoBehaviour
     /// </summary>
     void Patrol()
     {
+        Debug.Log("My patrol point is " + patrolArea.patrolPoints[patrolPointer].position);
         agent.destination = patrolArea.patrolPoints[patrolPointer].position;
+        Debug.Log("My destination is " + agent.destination);
         //agent.SetDestination(patrolArea.patrolPoints[patrolPointer].position);
-        //agent.destination = Vector3.zero;
-
-        //Vector3 newStuffIHATEYOU = new Vector3(patrolArea.patrolPoints[patrolPointer].position.x, patrolArea.patrolPoints[patrolPointer].position.y, patrolArea.patrolPoints[patrolPointer].position.z);
-        //agent.destination = newStuffIHATEYOU;
-
-        Debug.Log("My Destination is: " + agent.destination);
-        Debug.Log("My patrol point is: " + patrolArea.patrolPoints[patrolPointer].position);
-
-
-
+        
         if (patrolArea == null)
         { Debug.Log("I don't have a patrol area :("); return; }
 
