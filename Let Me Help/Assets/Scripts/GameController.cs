@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour {
     EnemyBehaviour[] enemyControllers;
 
     public DoorScript[] doors;
+    public PlayerController playerScript;
 
     // Use this for initialization
     void Start() {

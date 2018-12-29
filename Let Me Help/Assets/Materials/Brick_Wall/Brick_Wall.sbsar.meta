@@ -1,0 +1,101 @@
+fileFormatVersion: 2
+guid: 6dc5de52b54787f4ea3fabb5fb188b11
+ScriptedImporter:
+  fileIDToRecycleName:
+    100000: Brick_Wall/Brick_Wall
+    400000: Brick_Wall/Brick_Wall/Transform
+    2100000: mat.Brick_Wall
+    2300000: Brick_Wall/Brick_Wall/MeshRenderer
+    2800000: Brick_Wall_baseColor
+    2800002: Brick_Wall_normal
+    2800004: Brick_Wall_metallic
+    2800006: Brick_Wall_height
+    3300000: Brick_Wall/Brick_Wall/MeshFilter
+    11400000: sbsar
+    11400002: graph0
+    13500000: Brick_Wall/Brick_Wall/SphereCollider
+    100100000: Brick_Wall
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 232528478, guid: 43a8bbf65be290d44ba52b94476242b9, type: 3}
+  version: 13
+  mGraphInstanceData:
+  - graphLabel: Brick_Wall
+    prototypeName: Brick_Wall
+    graphDescIndex: 0
+    generateAllOutputs: 0
+    generateMipMaps: 1
+    preset: " <sbspreset pkgurl=\"pkg://Brick_Wall\" label=\"\" >\n  <presetinput
+      identifier=\"$outputsize\" uid=\"1160043161\" type=\"8\" value=\"10,10\" />\n
+      \ <presetinput identifier=\"plaster_height\" uid=\"908384936\" type=\"0\" value=\"0.992\"
+      />\n  <presetinput identifier=\"plaster_discoloration\" uid=\"907214486\" type=\"0\"
+      value=\"0.98\" />\n  <presetinput identifier=\"plaster_dirt\" uid=\"907193173\"
+      type=\"0\" value=\"0.35\" />\n  <presetinput identifier=\"Water\" uid=\"910149627\"
+      type=\"0\" value=\"0.9\" />\n  <presetinput identifier=\"B1_Luminosity\" uid=\"908186312\"
+      type=\"0\" value=\"0.497\" />\n  <presetinput identifier=\"B2_Luminosity\" uid=\"908186265\"
+      type=\"0\" value=\"0.4899\" />\n  <presetinput identifier=\"B3_Luminosity\"
+      uid=\"908186282\" type=\"0\" value=\"0.5134\" />\n  <presetinput identifier=\"B4_Luminosity\"
+      uid=\"908185928\" type=\"0\" value=\"0.4757\" />\n  <presetinput identifier=\"B5_Luminosity\"
+      uid=\"908185968\" type=\"0\" value=\"0.5374\" />\n </sbspreset>\n"
+    shaderName: Standard
+    outputNames: baseColor,normal,metallic,height
+    texturePackingList:
+    - outputName: baseColor
+      alphaSource: baseColor
+    - outputName: normal
+      alphaSource: normal
+    - outputName: roughness
+      alphaSource: roughness
+    - outputName: metallic
+      alphaSource: smoothness
+    - outputName: height
+      alphaSource: height
+    textureParameters:
+    - textureName: Brick_Wall_roughness
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: Brick_Wall_baseColor
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: Brick_Wall_normal
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: Brick_Wall_metallic
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: Brick_Wall_height
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    colorSpaceList:
+    - outputName: baseColor
+      bLinear: 0
+    - outputName: normal
+      bLinear: 1
+    - outputName: roughness
+      bLinear: 1
+    - outputName: metallic
+      bLinear: 1
+    - outputName: height
+      bLinear: 1
+    inputTextureMap: []
+    targetSettingList:
+    - label: 
+      bLockRatio: 1
+      bHighQuality: 1
+      textureWidth: 1024
+      textureHeight: 1024
+      textureFormat: 0
+      bGenerateOnLoad: 1
+    material: {fileID: 2100000, guid: 6dc5de52b54787f4ea3fabb5fb188b11, type: 3}
+    generatedTextures:
+    - {fileID: 2800000, guid: 6dc5de52b54787f4ea3fabb5fb188b11, type: 3}
+    - {fileID: 2800002, guid: 6dc5de52b54787f4ea3fabb5fb188b11, type: 3}
+    - {fileID: 2800004, guid: 6dc5de52b54787f4ea3fabb5fb188b11, type: 3}
+    - {fileID: 2800006, guid: 6dc5de52b54787f4ea3fabb5fb188b11, type: 3}

@@ -53,8 +53,23 @@ public class ArduinoHandler : MonoBehaviour {
             GameController.Instance.doors[1].Open();
         } else if (message == names[1] + "Close") {
             GameController.Instance.doors[1].Close();
+        //} else if (message == names[0] + "LeftUp" || message == names[1] + "LeftUp") {
+        //    GameController.Instance.playerScript.UpdateMovement(1, 0);
+        //} else if (message == names[0] + "LeftDown" || message == names[1] + "LeftDown") {
+        //    GameController.Instance.playerScript.UpdateMovement(-1, 0);
+        //} else if (message == names[0] + "RightUp" || message == names[1] + "RightUp") {
+        //    GameController.Instance.playerScript.UpdateMovement(1, 0);
+        //} else if (message == names[0] + "RightDown" || message == names[1] + "RightDown") {
+        //    GameController.Instance.playerScript.UpdateMovement(-1, 0);
         } else {
-            Debug.Log("Message '" + message + "' could not be processed.");
+            string[] parts = message.Split(' ');
+            if (parts[0] == names[0] + "Left" || parts[0] == names[1] + "Left") {
+                GameController.Instance.playerScript.ChangePosLeft(int.Parse(parts[1]));
+            } else if (parts[0] == names[0] + "Right" || parts[0] == names[1] + "Right") {
+                GameController.Instance.playerScript.ChangePosRight(int.Parse(parts[1]));
+            } else {
+                Debug.Log("Message '" + message + "' could not be processed.");
+            }
         }
     }
 
