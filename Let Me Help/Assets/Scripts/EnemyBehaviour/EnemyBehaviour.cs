@@ -9,7 +9,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     NavMeshAgent agent;
 
-    //[SerializeField]
+    [SerializeField]
     Vector3 destination;
     public PatrolArea patrolArea;
     int patrolPointer;
@@ -36,8 +36,6 @@ public class EnemyBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //destination = agent.destination;
-        Debug.Log(agent.SetDestination(GameController.Instance.player.transform.position)); 
         switch (currentState)
         {
             case CurrentState.Patrol: Patrol(); break;
@@ -45,6 +43,16 @@ public class EnemyBehaviour : MonoBehaviour
             case CurrentState.Search: Search(); break;
             default: throw new System.ArgumentException("how the fuck did you even manage to give an enum a nonexisting value?");
         }
+
+        //destination = gameController.player.transform.position;
+
+        if (destination != agent.destination)
+        {
+            bool temp = agent.SetDestination(destination);
+            if (!temp) { throw new System.ArgumentException("Something went wrong when setting the destination"); }
+        }
+        if (agent.destination != destination) { Debug.Log("agent.destination is not the destination we want it to be and we don't appreciate that..."); }
+
     }
 
     /// <summary>
@@ -52,30 +60,26 @@ public class EnemyBehaviour : MonoBehaviour
     /// </summary>
     void Patrol()
     {
-        Debug.Log("My patrol point is " + patrolArea.patrolPoints[patrolPointer].position);
-        agent.destination = patrolArea.patrolPoints[patrolPointer].position;
-        Debug.Log("My destination is " + agent.destination);
-        //agent.SetDestination(patrolArea.patrolPoints[patrolPointer].position);
+        destination = patrolArea.patrolPoints[patrolPointer].position;
         
         if (patrolArea == null)
         { Debug.Log("I don't have a patrol area :("); return; }
 
         //If close enough to patrol point, set destination to next patrol point in scene
-        if (Vector3.Distance(transform.position,agent.destination) <= patrolCatchDistance)
+        if (Vector3.Distance(transform.position,patrolArea.patrolPoints[patrolPointer].position) <= patrolCatchDistance)
         {
-            //Debug.Log(agent.destination);
-            Debug.Log(transform.position);
-            //Debug.Log(patrolArea.patrolPoints[patrolPointer].position);
+
             Debug.Log("Yay I am at my DESTINATION.");
+            Debug.Log(agent.remainingDistance);
             patrolPointer++;
 
             if (patrolPointer >= patrolArea.patrolPoints.Length)
             {
-                Debug.Log("Going back to the start!");
+                //Debug.Log("Going back to the start!");
                 patrolPointer = 0;
             }
 
-            //agent.destination = patrolArea.patrolPoints[patrolPointer].position;
+            destination = patrolArea.patrolPoints[patrolPointer].position;
         }
 
         //if the player is in the patrol area of this enemy, go into chase state
@@ -105,7 +109,7 @@ public class EnemyBehaviour : MonoBehaviour
     /// </summary>
     void ChasePlayer()
     {
-        agent.destination = gameController.player.transform.position;
+        destination = gameController.player.transform.position;
     }
 
     /// <summary>
@@ -137,7 +141,7 @@ public class EnemyBehaviour : MonoBehaviour
                 Debug.Log("Lost the player :(");
 
                 currentState = CurrentState.Patrol;
-                agent.destination = patrolArea.patrolPoints[patrolPointer].position;
+                destination = patrolArea.patrolPoints[patrolPointer].position;
 
                 Patrol();
                 return;
