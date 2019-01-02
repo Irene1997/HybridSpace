@@ -1,118 +1,200 @@
 #include <SoftwareSerial.h>
 #include <SerialCommand.h>
 
-#define MagnetPin 2
-#define BlinkPin 3
-
 SerialCommand sCmd;
 
-int magnetState = 0, prevMagnetState = 0;
-long timeToDoorCheck = 0;
+const int ledPinOffset = 2, columnAmount = 6, rowAmount = 5, buttonPin = 13, doorOffset = A0, doorAmount = 6, enemyAmount = 5;
+const unsigned long debounceDelay = 50;
 
-long timeToChange = 0;
-int state = 0;
-int ledState = 0;
+int activeColumn = -1, activeRow = -1, activeEnemy = 0;
+int playerPosition [2] = {-1, -1};
+int enemyPositions [enemyAmount * 2];
+int doorState = 0;
+unsigned long lastDoorsCheck = 0, lastDebounceTime = 0, lastToggleTime = 0;
+int buttonReading = HIGH, buttonState = HIGH;
+bool showPlayer = true;
 
 void setup() {
+  for (int i = 0; i < enemyAmount * 2; ++i) {
+    enemyPositions[i] = -1;
+  }
+  
   Serial.begin(9600);
   while (!Serial);
 
-  sCmd.addCommand("PING", pingHandler);
-  sCmd.addCommand("ECHO", echoHandler);
-  sCmd.addCommand("ASK_STATE", ask_magnetState);
-  sCmd.addCommand("LED_ON", led_on);
-  sCmd.addCommand("LED_OFF", led_off);
+  sCmd.addCommand("N", askName);
+  sCmd.addCommand("D", askDoorState);
+  sCmd.addCommand("P", newPlayerPosition);
+  sCmd.addCommand("E", newEnemyPosition);
   sCmd.addDefaultHandler(errorHandler);
 
-  pinMode(MagnetPin, INPUT);
-  pinMode(LED_BUILTIN, OUTPUT);
+  for (int i = 0; i < columnAmount; ++i) {
+    pinMode(ledPinOffset + i, INPUT);
+  }
+  for (int i = 0; i < rowAmount; ++i) {
+    pinMode(ledPinOffset + columnAmount + i, OUTPUT);
+    digitalWrite(ledPinOffset + columnAmount + i, LOW);
+  }
+  pinMode(buttonPin, INPUT_PULLUP);
+  for (int i = 0; i < doorAmount; ++i) {
+    pinMode(doorOffset + i, INPUT_PULLUP);
+    if (digitalRead(doorOffset + i) == LOW){
+      doorState |= 1 << i;
+    }
+  }
+
+  testLeds();
+}
+
+void askName(){
+  Serial.println("N MazeArduino");
+}
+
+void askDoorState () {
+  Serial.println("D " + doorState);
+}
+
+void newPlayerPosition () {
+  char *arg;
+  int c, r;
+  arg = sCmd.next();
+  if (arg == NULL) {
+    Serial.println("E player misses its column number.");
+    return;
+  } else {
+    c = atol(arg);
+  }
+  arg = sCmd.next();
+  if (arg == NULL) {
+    Serial.println("E player misses its column number.");
+    return;
+  } else {
+    r = atol(arg);
+  }
+  playerPosition[0] = c;
+  playerPosition[1] = r;
+}
+
+void newEnemyPosition () {
+  char *arg;
+  int i, c, r;
+  arg = sCmd.next();
+  if (arg == NULL) {
+    Serial.println("E enemy misses its index.");
+    return;
+  } else {
+    i = atol(arg);
+  }
+  arg = sCmd.next();
+  if (arg == NULL) {
+    Serial.println("E enemy misses its column number.");
+    return;
+  } else {
+    c = atol(arg);
+  }
+  arg = sCmd.next();
+  if (arg == NULL) {
+    Serial.println("E enemy misses its row number");
+    return;
+  } else {
+    r = atol(arg);
+  }
+  enemyPositions[i * 2] = c;
+  enemyPositions[i*2+1] = r;
+}
+
+void errorHandler () {
+  Serial.println("E unreadable command.");
+}
+
+void testLeds (){
+  for (int r = 0; r < rowAmount; ++r) {
+    for (int c = 0; c < columnAmount; ++c) {
+      showPosition(c, r);
+      delay(300);
+    }
+  }
+  showNoPosition();
 }
 
 void loop() {
-  if (millis() > timeToDoorCheck){
-    timeToDoorCheck += 50;
-  // Reading the magnet state
-  magnetState = digitalRead(MagnetPin);
-  if (magnetState != prevMagnetState){
-    if (magnetState == HIGH){
-      led_off();
-      Serial.println("Open");
-    } else {
-      led_on();
-      Serial.println("Close");
-    }
-    prevMagnetState = magnetState;
+  if ((millis() - lastDoorsCheck) > 50) {
+    checkDoors();
+    lastDoorsCheck = millis();
   }
 
+  //buttonReading = digitalRead(buttonPin);
+  //if (buttonReading != buttonState) {
+  //  lastDebounceTime = millis();
+  //}
+  //if ((millis() - lastDebounceTime) > debounceDelay) {
+  //  if (buttonReading != buttonState) {
+  //    buttonState = buttonReading;
+  //    if (buttonState == LOW) {
+        activeEnemy = (activeEnemy + 1) % enemyAmount;
+  //    }
+  //  }
+  //}
+
+  if (showPlayer) {
+    showPosition(playerPosition[0], playerPosition[1]);
+    if (millis() - lastToggleTime > 50) {
+      lastToggleTime = millis();
+      showPlayer = false;
+    }
+  } else {
+    showPosition(enemyPositions[activeEnemy * 2], enemyPositions[activeEnemy * 2 + 1]);
+    if (millis() - lastToggleTime > 200) {
+      lastToggleTime = millis();
+      showPlayer = true;
+    }
+  }
+  
   // Processing incomming commands
-  if (Serial.available() > 0)
+  if (Serial.available() > 0) {
     sCmd.readSerial();
-
-}
-
-  // Blinking the two LEDs on one pin
-  if (millis() > timeToChange){
-    state++;
-    state &= 3;
-    timeToChange = millis() + 1000;
-  }
-
-  if (state != ledState){
-    if (state == 0){
-      pinMode(BlinkPin, INPUT);
-      ledState = 0;
-    } else{
-      pinMode(BlinkPin, OUTPUT);
-      if (state == 1 || (state == 3 && ledState >= 2)){
-        digitalWrite(BlinkPin, LOW);
-        ledState = 1;
-      } else if (state == 2 || (state == 3 && ledState <= 1)){
-        digitalWrite(BlinkPin, HIGH);
-        ledState = 2;
-      }
-    }
   }
 
   delay(1);  
 }
 
-void ask_magnetState(){
-  magnetState = digitalRead(MagnetPin);
-  if (magnetState == HIGH){
-    led_off();
-    Serial.println("Open");
-  } else {
-    led_on();
-    Serial.println("Close");
+void checkDoors() {
+  int newState = 0;
+  for (int i = 0; i < doorAmount; ++i) {
+    newState |= 1 << i;
   }
-  prevMagnetState = magnetState;
+  if (newState != doorState) {
+    doorState = newState;
+    askDoorState();
+  }
 }
 
-void led_on(){
-  digitalWrite(LED_BUILTIN, HIGH);
+void showPosition (int c, int r) {
+  if (c < 0 || c >= columnAmount || r < 0 || r >= rowAmount){
+    showNoPosition();
+    return;
+  }
+  if (activeColumn != c) {
+    pinMode(activeColumn + ledPinOffset, INPUT);
+    activeColumn = c;
+    pinMode(activeColumn + ledPinOffset, OUTPUT);
+    digitalWrite(activeColumn + ledPinOffset, LOW);
+  }
+
+  if (activeRow != r) {
+    digitalWrite(activeRow + ledPinOffset + columnAmount, LOW);
+    activeRow = r;
+    digitalWrite(activeRow + ledPinOffset + columnAmount, HIGH);
+  }
 }
 
-void led_off(){
-  digitalWrite(LED_BUILTIN, LOW);
+void showNoPosition () {
+  if (activeColumn != -1) {
+    pinMode(activeColumn + ledPinOffset, INPUT);
+    activeColumn = -1;
+  }
+  if (activeRow != -1) {
+    digitalWrite(activeRow + ledPinOffset + columnAmount, LOW);
+    activeRow = -1;
+  }
 }
-
-void pingHandler ()
-{
-  Serial.println("PONG");
-}
-
-void echoHandler ()
-{
-  char *arg;
-  arg = sCmd.next();
-  if (arg != NULL)
-    Serial.println(arg);
-  else
-    Serial.println("nothing to echo");
-}
-
-void errorHandler (const char *command)
-{
-  Serial.println("Some error happened");
-}
-
