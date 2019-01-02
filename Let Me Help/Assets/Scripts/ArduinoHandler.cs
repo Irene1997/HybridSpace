@@ -14,7 +14,7 @@ public class ArduinoHandler : MonoBehaviour {
     [Tooltip("The read delay after a failed read attempt in seconds")]
     public float readDelay = 0.05f;
     // The dictionary containing all created Arduino connections by name
-    IDictionary<string, Arduino> arduinos;
+    public IDictionary<string, Arduino> arduinos;
 
     public void Start() {
         arduinos = new Dictionary<string, Arduino>();
@@ -37,8 +37,8 @@ public class ArduinoHandler : MonoBehaviour {
 
         // Send initializing commands to each Arduino
         foreach (Arduino arduino in arduinos.Values) {
-            arduino.Write("LED_ON");
-            arduino.Write("ASK_STATE");
+            arduino.Write("N");
+            arduino.Write("D");
         }
     }
 
@@ -82,7 +82,7 @@ public class ArduinoHandler : MonoBehaviour {
     }
 }
 
-class Arduino {
+public class Arduino {
     public string name, port;
     public SerialPort stream;
     float readDelay;

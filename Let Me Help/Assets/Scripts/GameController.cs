@@ -13,12 +13,12 @@ public class GameController : MonoBehaviour {
     //public PlayerState playerState;
 
     public GameObject enemies;
-
-    [SerializeField]
-    EnemyBehaviour[] enemyControllers;
+    public EnemyBehaviour[] enemyControllers;
 
     public DoorScript[] doors;
     public PlayerController playerScript;
+
+    public ArduinoHandler arduinoHandler;
 
     // Use this for initialization
     void Start() {
@@ -35,6 +35,8 @@ public class GameController : MonoBehaviour {
             if (enemies == null) { Debug.LogWarning("No enemies could be found."); }
         }
         enemyControllers = enemies.GetComponentsInChildren<EnemyBehaviour>();
+
+        arduinoHandler = GetComponent<ArduinoHandler>();
     }
 
     // Update is called once per frame
