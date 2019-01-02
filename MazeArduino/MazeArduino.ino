@@ -43,7 +43,7 @@ void setup() {
     }
   }
 
-  testLeds();
+  //testLeds();
 }
 
 void askName(){
