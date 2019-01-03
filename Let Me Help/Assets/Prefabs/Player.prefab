@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4173588886155506}
   - component: {fileID: 114261655911167430}
   - component: {fileID: 65493019762571668}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Model
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 4262119322268188}
   - component: {fileID: 114427835687883622}
   - component: {fileID: 65830705400899210}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Model
   m_TagString: Player
   m_Icon: {fileID: 0}
