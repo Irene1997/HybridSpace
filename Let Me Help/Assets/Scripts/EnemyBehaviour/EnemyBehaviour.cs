@@ -37,6 +37,7 @@ public class EnemyBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Decide a destination (if any) based on the current state of the enemy
         switch (currentState)
         {
             case CurrentState.Patrol: Patrol(); break;
@@ -45,15 +46,12 @@ public class EnemyBehaviour : MonoBehaviour
             default: throw new System.ArgumentException("how the fuck did you even manage to give an enum a nonexisting value?");
         }
 
-        //destination = gameController.player.transform.position;
-
+        //If the destination is new, set the agent destination and calculate a new path
         if (destination != agent.destination)
         {
             bool temp = agent.SetDestination(destination);
             if (!temp) { throw new System.ArgumentException("Something went wrong when setting the destination"); }
         }
-        //if (agent.destination != destination) { Debug.Log("agent.destination is not the destination we want it to be and we don't appreciate that..."); }
-
     }
 
     /// <summary>
@@ -61,6 +59,7 @@ public class EnemyBehaviour : MonoBehaviour
     /// </summary>
     void Patrol()
     {
+        //If the destination is not the same as the current patrol point, set it to that point.
         if (destination != patrolArea.patrolPoints[patrolPointer].position)
         {
             destination = patrolArea.patrolPoints[patrolPointer].position;
@@ -69,21 +68,16 @@ public class EnemyBehaviour : MonoBehaviour
         if (patrolArea == null)
         { Debug.Log("I don't have a patrol area :("); return; }
 
-        //If close enough to patrol point, set destination to next patrol point in scene
+        //If close enough to patrol point, set patrol pointer to next patrol point in scene
         if (Vector3.Distance(transform.position,patrolArea.patrolPoints[patrolPointer].position) <= patrolCatchDistance)
         {
-
-            //Debug.Log("Yay I am at my DESTINATION.");
-            //Debug.Log(agent.remainingDistance);
             patrolPointer++;
 
+            //Set pointer back to the start if it's at the end of its path.
             if (patrolPointer >= patrolArea.patrolPoints.Length)
             {
-                //Debug.Log("Going back to the start!");
                 patrolPointer = 0;
             }
-
-            //destination = patrolArea.patrolPoints[patrolPointer].position;
         }
 
         //if the player is in the patrol area of this enemy, go into chase state
@@ -95,12 +89,13 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     /// <summary>
-    /// Enemy Chase State behaviour
+    /// When the Player is in the Patrol Zone of an Enemy, that enemy continuously targets the player.
     /// </summary>
     void Chase()
     {
         ChasePlayer();
 
+        //If the player is not in the Patrol Zone anymore, switch to the Search State.
         if (!IsEntityInPatrolArea(gameController.player.transform))
         {
             Debug.Log("Searching for player");
@@ -109,7 +104,7 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     /// <summary>
-    /// Enemy sets player as destination
+    /// Enemy sets player as destination and plots a path.
     /// </summary>
     void ChasePlayer()
     {
@@ -117,7 +112,7 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     /// <summary>
-    /// Enemy chases player, unless the player has been out of Line Of Sight for a certain time, then it goes back to patrol
+    /// Enemy chases player, unless the player has been out of Line Of Sight for a certain time, then it goes back to Patrol.
     /// </summary>
     void Search()
     {
@@ -130,7 +125,7 @@ public class EnemyBehaviour : MonoBehaviour
             return;
         }
 
-        //if the player is in sight, set them as the
+        //if the player is in sight, set them as the destination
         if(InSight(transform, gameController.player.transform))
         {
             searchTimer = 0;
@@ -140,6 +135,7 @@ public class EnemyBehaviour : MonoBehaviour
         {
             searchTimer += Time.deltaTime;
 
+            //If the search timer is up, go back to the patrol state
             if (searchTimer >= searchTime)
             {
                 Debug.Log("Lost the player :(");
