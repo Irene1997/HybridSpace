@@ -3,31 +3,37 @@
 
 SerialCommand sCmd;
 
+// Setting consttant values
 const int ledPinOffset = 2, columnAmount = 6, rowAmount = 5, buttonPin = 13, doorOffset = A0, doorAmount = 6, enemyAmount = 5;
 const unsigned long debounceDelay = 50;
 
+// Declaring some variables, they seem self explainatairy enough
 int activeColumn = -1, activeRow = -1, activeEnemy = 0;
 int playerPosition [2] = {-1, -1};
 int enemyPositions [enemyAmount * 2];
 int doorState = 0;
 unsigned long lastDoorsCheck = 0, lastDebounceTime = 0, lastToggleTime = 0;
-int buttonReading = HIGH, buttonState = HIGH;
 bool showPlayer = true, blinkEnemies = false;
 
+// Setup code
 void setup() {
+  // Fill the enemyPositions with out of reach coordinates
   for (int i = 0; i < enemyAmount * 2; ++i) {
     enemyPositions[i] = -1;
   }
-  
+
+  // Start the serial communication
   Serial.begin(9600);
   while (!Serial);
 
+  // Assigning methods to incomming commands
   sCmd.addCommand("N", askName);
   sCmd.addCommand("D", askDoorState);
   sCmd.addCommand("P", newPlayerPosition);
   sCmd.addCommand("M", newEnemyPosition);
   sCmd.addDefaultHandler(errorHandler);
-
+  
+  // Set all pinModes and standard outputs
   for (int i = 0; i < columnAmount; ++i) {
     pinMode(ledPinOffset + i, INPUT);
   }
@@ -42,18 +48,22 @@ void setup() {
       doorState |= 1 << i;
     }
   }
-
+  
+  // Run a test for the leds
   testLeds();
 }
 
+// Returns the name of the Arduino
 void askName(){
   Serial.println("N MazeArduino");
 }
 
+// Returns the current door states
 void askDoorState () {
   Serial.println("D " + doorState);
 }
 
+// Changes the player position
 void newPlayerPosition () {
   char *arg;
   int c, r;
@@ -75,6 +85,7 @@ void newPlayerPosition () {
   playerPosition[1] = r;
 }
 
+// Changes an enemy's position
 void newEnemyPosition () {
   char *arg;
   int i, c, r;
@@ -103,10 +114,12 @@ void newEnemyPosition () {
   enemyPositions[i*2+1] = r;
 }
 
+// Returns an error to the serial
 void errorHandler () {
   Serial.println("E unreadable command.");
 }
 
+// Turns on every LED one by one for a little while
 void testLeds (){
   for (int r = 0; r < rowAmount; ++r) {
     for (int c = 0; c < columnAmount; ++c) {
@@ -117,24 +130,15 @@ void testLeds (){
   showNoPosition();
 }
 
+// Update code
 void loop() {
+  // Checks the door states periodically
   if ((millis() - lastDoorsCheck) > 50) {
     checkDoors();
     lastDoorsCheck = millis();
   }
 
-  //buttonReading = digitalRead(buttonPin);
-  //if (buttonReading != buttonState) {
-  //  lastDebounceTime = millis();
-  //}
-  //if ((millis() - lastDebounceTime) > debounceDelay) {
-  //  if (buttonReading != buttonState) {
-  //    buttonState = buttonReading;
-  //    if (buttonState == LOW) {
-  //    }
-  //  }
-  //}
-
+  // Turns on the LEDs according to the positions
   if (showPlayer){
     showPosition(playerPosition[0], playerPosition[1]);
     showPlayer = false;
@@ -149,18 +153,22 @@ void loop() {
       activeEnemy = 0;
     }
   }
+  // Toggles the enemy LEds
   if (millis() - lastToggleTime > 200) {
     lastToggleTime = millis();
     blinkEnemies = !blinkEnemies;
   }
-  // Processing incomming commands
+  
+  // Processes incomming commands
   if (Serial.available() > 0) {
     sCmd.readSerial();
   }
-
+  
+  // A litle delay for stability
   delay(1);  
 }
 
+// Checks the states of the doors
 void checkDoors() {
   int newState = 0;
   for (int i = 0; i < doorAmount; ++i) {
@@ -172,6 +180,7 @@ void checkDoors() {
   }
 }
 
+// Turns on the led on the given position
 void showPosition (int c, int r) {
   if (c < 0 || c >= columnAmount || r < 0 || r >= rowAmount){
     showNoPosition();
@@ -191,6 +200,7 @@ void showPosition (int c, int r) {
   }
 }
 
+// Turns off all leds
 void showNoPosition () {
   if (activeColumn != -1) {
     pinMode(activeColumn + ledPinOffset, INPUT);

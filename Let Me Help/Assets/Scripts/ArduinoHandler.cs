@@ -85,6 +85,7 @@ public class ArduinoHandler : MonoBehaviour {
         }
     }
 
+    // Try to send a message to an Arduino
     public void WriteToArduino(string arduinoName, string message) {
         if (namedArduinos.ContainsKey(arduinoName)) {
             namedArduinos[arduinoName].Write(message);

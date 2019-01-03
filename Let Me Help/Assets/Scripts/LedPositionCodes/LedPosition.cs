@@ -1,1 +1,1 @@
-﻿using UnityEngine; public class LedPosition : MonoBehaviour { public int col, row; }
+﻿using UnityEngine; public class LedPosition : MonoBehaviour { public int col, row; } // Literally just holds two variables, nothing else.

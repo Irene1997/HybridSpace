@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
+    // The instance of this class
     static GameController instance;
 
     //public enum PlayerState { Alive, Dead };
 
-
+    // Instances that can be accesed from every class via the Instance of this class
     public GameObject player;
     //public PlayerState playerState;
 
@@ -23,7 +24,7 @@ public class GameController : MonoBehaviour {
     // Use this for initialization
     void Start() {
 
-        //load player and enemies
+        // Sets all instances
         instance = this;
         if (player == null) {
             player = GameObject.Find("PLayer");
@@ -44,6 +45,7 @@ public class GameController : MonoBehaviour {
 
     }
 
+    // Tries to return the instance of this class
     public static GameController Instance {
         get {
             if (instance == null) {
@@ -62,18 +64,20 @@ public class GameController : MonoBehaviour {
     {
         SceneManager.LoadScene(0);
     }
-
-
-
-
-    //Get Set
-
-    //PlayerState ChangePlayerState {
-    //    get {
-    //        return playerState;
-    //    }
-    //    set {
-    //        playerState = value;
-    //    }
-    //}
 }
+/*                  *\
+     |\_  /\  _/|     
+     |{}\/{}\/{}|     
+     |__________|     
+     /##########\     
+    /#(.)#/\#(.)#\    
+   /#####/__\#####\   
+  |#######\/#######|  
+ /|################|\ 
+/ |####/      \####| \
+| |###|        |###| |
+| |###|        |###| |
+\_\###|________|###/_/
+   /_\          /_\   
+Jaap de Keizerspinguin
+\*                  */

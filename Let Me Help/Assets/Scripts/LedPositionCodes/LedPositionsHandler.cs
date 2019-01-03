@@ -3,25 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LedPositionsHandler : MonoBehaviour {
-
+    // Stores all known LED positions
     LedPosition[] ledPositions;
+    // Stores the corresponding LED position of the player and enemies
     LedPosition playerLed;
     LedPosition[] enemyLeds;
 
-	// Use this for initialization
+	// Initialization
 	void Start () {
         ledPositions = GetComponentsInChildren<LedPosition>();
         enemyLeds = new LedPosition[GameController.Instance.enemyControllers.Length];
 	}
 	
-	// Update is called once per frame
+	// Update
 	void Update () {
         if (GameController.Instance.arduinoHandler.namedArduinos.ContainsKey("MazeArduino")) {
+            // Finds the closest LED to the player
             LedPosition closestLed = ClosestToPosition(GameController.Instance.player.transform.position);
             if (closestLed != playerLed) {
                 playerLed = closestLed;
                 GameController.Instance.arduinoHandler.namedArduinos["MazeArduino"].Write("P " + closestLed.col + " " + closestLed.row);
             }
+            // Finds the closest LED for each enemy
             for (int i = 0; i < enemyLeds.Length; ++i) {
                 closestLed = ClosestToPosition(GameController.Instance.enemies.GetComponentsInChildren<Transform>()[i].position);
                 if (closestLed != enemyLeds[i]) {
@@ -32,6 +35,7 @@ public class LedPositionsHandler : MonoBehaviour {
         }
 	}
 
+    // Finds the closest LED to a position
     LedPosition ClosestToPosition(Vector3 pos) {
         LedPosition closestLed = null;
         float closetDistanceSquared = float.PositiveInfinity;
