@@ -12,7 +12,7 @@ int enemyPositions [enemyAmount * 2];
 int doorState = 0;
 unsigned long lastDoorsCheck = 0, lastDebounceTime = 0, lastToggleTime = 0;
 int buttonReading = HIGH, buttonState = HIGH;
-bool showPlayer = true;
+bool showPlayer = true, blinkEnemies = false;
 
 void setup() {
   for (int i = 0; i < enemyAmount * 2; ++i) {
@@ -43,7 +43,7 @@ void setup() {
     }
   }
 
-  //testLeds();
+  testLeds();
 }
 
 void askName(){
@@ -131,25 +131,28 @@ void loop() {
   //  if (buttonReading != buttonState) {
   //    buttonState = buttonReading;
   //    if (buttonState == LOW) {
-        activeEnemy = (activeEnemy + 1) % enemyAmount;
   //    }
   //  }
   //}
 
-  if (showPlayer) {
+  if (showPlayer){
     showPosition(playerPosition[0], playerPosition[1]);
-    if (millis() - lastToggleTime > 50) {
-      lastToggleTime = millis();
-      showPlayer = false;
-    }
+    showPlayer = false;
   } else {
-    showPosition(enemyPositions[activeEnemy * 2], enemyPositions[activeEnemy * 2 + 1]);
-    if (millis() - lastToggleTime > 200) {
-      lastToggleTime = millis();
+    if (blinkEnemies) {
+        showPosition(enemyPositions[activeEnemy * 2], enemyPositions[activeEnemy * 2 + 1]);
+      } else {
+        showNoPosition();
+      }
+    if (++activeEnemy >= enemyAmount){
       showPlayer = true;
+      activeEnemy = 0;
     }
   }
-  
+  if (millis() - lastToggleTime > 200) {
+    lastToggleTime = millis();
+    blinkEnemies = !blinkEnemies;
+  }
   // Processing incomming commands
   if (Serial.available() > 0) {
     sCmd.readSerial();
