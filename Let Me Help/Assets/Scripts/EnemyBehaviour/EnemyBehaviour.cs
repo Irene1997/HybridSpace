@@ -13,7 +13,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField]
     Vector3 destination;
     public PatrolArea patrolArea;
-    int patrolPointer;
+    public int patrolPointer;
     float searchTimer;
     RaycastHit hit;
     [SerializeField]
@@ -59,6 +59,14 @@ public class EnemyBehaviour : MonoBehaviour
     /// </summary>
     void Patrol()
     {
+        //If the player is in sight but the player is not in the Patrol zone, go Search anyway >:)
+        if(InSight(transform, gameController.player.transform))
+        {
+            currentState = CurrentState.Search;
+            Search();
+            return;
+        }
+
         //If the destination is not the same as the current patrol point, set it to that point.
         if (destination != patrolArea.patrolPoints[patrolPointer].position)
         {

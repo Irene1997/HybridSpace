@@ -44,6 +44,7 @@ public class EnemyController : MonoBehaviour
         for (int i = 0; i < enemies.Length; i++)
         {
             enemies[i].patrolArea = patrolAreas[i];
+            enemies[i].patrolPointer = 0;
         }
     }
 
