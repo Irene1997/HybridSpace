@@ -25,7 +25,7 @@ void setup() {
   sCmd.addCommand("N", askName);
   sCmd.addCommand("D", askDoorState);
   sCmd.addCommand("P", newPlayerPosition);
-  sCmd.addCommand("E", newEnemyPosition);
+  sCmd.addCommand("M", newEnemyPosition);
   sCmd.addDefaultHandler(errorHandler);
 
   for (int i = 0; i < columnAmount; ++i) {
@@ -59,14 +59,14 @@ void newPlayerPosition () {
   int c, r;
   arg = sCmd.next();
   if (arg == NULL) {
-    Serial.println("E player misses its column number.");
+    Serial.println("E P misses column");
     return;
   } else {
     c = atol(arg);
   }
   arg = sCmd.next();
   if (arg == NULL) {
-    Serial.println("E player misses its column number.");
+    Serial.println("E P misses column");
     return;
   } else {
     r = atol(arg);
@@ -80,21 +80,21 @@ void newEnemyPosition () {
   int i, c, r;
   arg = sCmd.next();
   if (arg == NULL) {
-    Serial.println("E enemy misses its index.");
+    Serial.println("E M misses index.");
     return;
   } else {
     i = atol(arg);
   }
   arg = sCmd.next();
   if (arg == NULL) {
-    Serial.println("E enemy misses its column number.");
+    Serial.println("E M misses column");
     return;
   } else {
     c = atol(arg);
   }
   arg = sCmd.next();
   if (arg == NULL) {
-    Serial.println("E enemy misses its row number");
+    Serial.println("E M misses row");
     return;
   } else {
     r = atol(arg);

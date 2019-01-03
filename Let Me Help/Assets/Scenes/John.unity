@@ -98,7 +98,7 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 1
+    agentRadius: 0.5
     agentHeight: 2
     agentSlope: 25
     agentClimb: 0.2
@@ -106,7 +106,7 @@ NavMeshSettings:
     maxJumpAcrossDistance: 1
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.33333334
+    cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -191,7 +191,7 @@ Prefab:
 Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 134891661}
---- !u!1001 &248658306
+--- !u!1001 &389046717
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -216,7 +216,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4303894367141038, guid: 129399db62237304c9ca1d93c29533d2, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4303894367141038, guid: 129399db62237304c9ca1d93c29533d2, type: 2}
       propertyPath: m_LocalRotation.z
@@ -224,7 +224,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4303894367141038, guid: 129399db62237304c9ca1d93c29533d2, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4303894367141038, guid: 129399db62237304c9ca1d93c29533d2, type: 2}
       propertyPath: m_RootOrder
