@@ -16,19 +16,20 @@ public class LedPositionsHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        LedPosition closestLed = ClosestToPosition(GameController.Instance.player.transform.position);
-        if (closestLed != playerLed) {
-            playerLed = closestLed;
-            GameController.Instance.arduinoHandler.arduinos["MazeArduino"].Write("P " + closestLed.col + " " + closestLed.row);
-        }
-        for (int i = 0; i < enemyLeds.Length; ++i) {
-            closestLed = ClosestToPosition(GameController.Instance.enemies.GetComponentsInChildren<Transform>()[i].position);
-            if (closestLed != enemyLeds[i]) {
-                enemyLeds[i] = closestLed;
-                GameController.Instance.arduinoHandler.arduinos["MazeArduino"].Write("E " + i + " " + closestLed.col + " " + closestLed.row);
+        if (GameController.Instance.arduinoHandler.namedArduinos.ContainsKey("MazeArduino")) {
+            LedPosition closestLed = ClosestToPosition(GameController.Instance.player.transform.position);
+            if (closestLed != playerLed) {
+                playerLed = closestLed;
+                GameController.Instance.arduinoHandler.namedArduinos["MazeArduino"].Write("P " + closestLed.col + " " + closestLed.row);
+            }
+            for (int i = 0; i < enemyLeds.Length; ++i) {
+                closestLed = ClosestToPosition(GameController.Instance.enemies.GetComponentsInChildren<Transform>()[i].position);
+                if (closestLed != enemyLeds[i]) {
+                    enemyLeds[i] = closestLed;
+                    GameController.Instance.arduinoHandler.namedArduinos["MazeArduino"].Write("M " + i + " " + closestLed.col + " " + closestLed.row);
+                }
             }
         }
-		
 	}
 
     LedPosition ClosestToPosition(Vector3 pos) {

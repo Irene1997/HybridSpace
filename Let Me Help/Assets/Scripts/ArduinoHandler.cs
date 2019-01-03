@@ -5,8 +5,6 @@ using System;
 using System.IO.Ports;
 
 public class ArduinoHandler : MonoBehaviour {
-    [Tooltip("The names of the Aruinos")]
-    public string[] names = { "ARD1", "ARD2" };
     [Tooltip("The baudrate of the serial port")]
     public int baudrate = 9600;
     [Tooltip("The ReadTimeout of the streams in milliseconds")]
@@ -14,86 +12,108 @@ public class ArduinoHandler : MonoBehaviour {
     [Tooltip("The read delay after a failed read attempt in seconds")]
     public float readDelay = 0.05f;
     // The dictionary containing all created Arduino connections by name
-    public IDictionary<string, Arduino> arduinos;
+    public IDictionary<string, Arduino> namedArduinos;
+    IList<Arduino> arduinos;
+
 
     public void Start() {
-        arduinos = new Dictionary<string, Arduino>();
-        int nextName = 0;
+        arduinos = new List<Arduino>();
+        namedArduinos = new Dictionary<string, Arduino>();
         // Get all connected ports
         string[] ports = SerialPort.GetPortNames();
         // Try to make a connection to an Arduino for each port
         foreach (string port in ports) {
-            if (nextName < names.Length) {
-                Arduino arduino = Arduino.StartArduino(names[nextName], port, readTimeout, readDelay);
-                if (arduino != null) {
-                    string name = names[nextName];
-                    StartCoroutine(arduino.AsynchronousReadFromArduino((string s) => ReadMessage(name + s)));
-                    arduinos.Add(new KeyValuePair<string, Arduino>(name, arduino));
-                    nextName++;
-                }
+            Arduino arduino = Arduino.StartArduino(port, readTimeout, readDelay);
+            if (arduino != null) {
+                StartCoroutine(arduino.AsynchronousReadFromArduino((string s) => ReadMessage(arduino, s)));
+                arduinos.Add(arduino);
             }
-
         }
 
         // Send initializing commands to each Arduino
-        foreach (Arduino arduino in arduinos.Values) {
+        foreach (Arduino arduino in arduinos) {
             arduino.Write("N");
-            arduino.Write("D");
         }
     }
 
     // Handle incomming messages from the Aruinos
-    void ReadMessage(string message) {
-        Debug.Log("Received '" + message + "' from an Arduino.");
-        if (message == names[0] + "Open") {
-            GameController.Instance.doors[0].Open();
-        } else if (message == names[0] + "Close") {
-            GameController.Instance.doors[0].Close();
-        } else if (message == names[1] + "Open") {
-            GameController.Instance.doors[1].Open();
-        } else if (message == names[1] + "Close") {
-            GameController.Instance.doors[1].Close();
-        //} else if (message == names[0] + "LeftUp" || message == names[1] + "LeftUp") {
-        //    GameController.Instance.playerScript.UpdateMovement(1, 0);
-        //} else if (message == names[0] + "LeftDown" || message == names[1] + "LeftDown") {
-        //    GameController.Instance.playerScript.UpdateMovement(-1, 0);
-        //} else if (message == names[0] + "RightUp" || message == names[1] + "RightUp") {
-        //    GameController.Instance.playerScript.UpdateMovement(1, 0);
-        //} else if (message == names[0] + "RightDown" || message == names[1] + "RightDown") {
-        //    GameController.Instance.playerScript.UpdateMovement(-1, 0);
+    void ReadMessage(Arduino arduino, string message) {
+        Debug.Log("Received '" + message + "' from " + arduino.name);
+        switch (arduino.name) {
+            case "Unnamed":
+                if (message[0] == 'N') {
+                    string name = message.TrimStart("N ".ToCharArray());
+                    arduino.name = name;
+                    namedArduinos.Add(new KeyValuePair<string, Arduino>(name, arduino));
+                    if (name == "MazeArduino") {
+                        arduino.Write("D");
+                    } else {
+                        Debug.Log("Message '" + message + "' from " + arduino.name + " could not be processed.");
+                    }
+                }
+                break;
+            case "MazeArduino":
+                if (message[0] == 'D') {
+                    int doorStates = int.Parse(message.Split(' ')[1]);
+                    for(int i = 0; i < GameController.Instance.doors.Length; ++i) {
+                        if (((doorStates >> i) & 1) == 1) {
+                            GameController.Instance.doors[i].Open();
+                        } else {
+                            GameController.Instance.doors[i].Close();
+                        }
+                    }
+                } else {
+                    Debug.Log("Message '" + message + "' from " + arduino.name + " could not be processed.");
+                }
+                break;
+            case "Wheelchair":
+                switch (message[0]) {
+                    case 'L':
+                        GameController.Instance.playerScript.ChangePosLeft(int.Parse(message.Split(' ')[1]));
+                        break;
+                    case 'R':
+                        GameController.Instance.playerScript.ChangePosRight(int.Parse(message.Split(' ')[1]));
+                        break;
+                    default:
+                        Debug.Log("Message '" + message + "' from " + arduino.name + " could not be processed.");
+                        break;
+                }
+                break;
+            default:
+                Debug.Log("Message '" + message + "' from " + arduino.name + " could not be processed.");
+                break;
+        }
+    }
+
+    public void WriteToArduino(string arduinoName, string message) {
+        if (namedArduinos.ContainsKey(arduinoName)) {
+            namedArduinos[arduinoName].Write(message);
         } else {
-            string[] parts = message.Split(' ');
-            if (parts[0] == names[0] + "Left" || parts[0] == names[1] + "Left") {
-                GameController.Instance.playerScript.ChangePosLeft(int.Parse(parts[1]));
-            } else if (parts[0] == names[0] + "Right" || parts[0] == names[1] + "Right") {
-                GameController.Instance.playerScript.ChangePosRight(int.Parse(parts[1]));
-            } else {
-                Debug.Log("Message '" + message + "' could not be processed.");
-            }
+            Debug.Log(arduinoName + " is not a known name");
         }
     }
 
     // Close connections on exit
     public void OnApplicationQuit() {
         Debug.Log("Closing Arduino connections...");
-        foreach (Arduino arduino in arduinos.Values) {
+        foreach (Arduino arduino in arduinos) {
             arduino.Close();
         }
     }
 }
 
 public class Arduino {
-    public string name, port;
+    public string name = "Unnamed", port;
     public SerialPort stream;
     float readDelay;
 
     // Returns an Arduino instance if a connection with the port could be made
-    public static Arduino StartArduino(string name, string port, int readTimeout, float readDelay, int baudrate = 9600) {
+    public static Arduino StartArduino(string port, int readTimeout, float readDelay, int baudrate = 9600) {
         SerialPort stream;
         try {
             stream = new SerialPort(port, baudrate) { ReadTimeout = readTimeout };
             stream.Open();
-            return new Arduino(name, port, stream, readDelay);
+            return new Arduino(port, stream, readDelay);
         } catch (Exception e) {
             Debug.LogWarning(e);
             return null;
@@ -101,8 +121,7 @@ public class Arduino {
     }
 
     // The constructor for the Arduino class
-    Arduino(string name, string port, SerialPort stream, float readDelay) {
-        this.name = name;
+    Arduino(string port, SerialPort stream, float readDelay) {
         this.port = port;
         this.stream = stream;
         this.readDelay = readDelay;
@@ -136,7 +155,7 @@ public class Arduino {
                 dataString += (char)readChar;
                 // Executes the callback if the line has ended
                 if (dataString.EndsWith(stream.NewLine)) {
-                    callback(dataString.TrimEnd('\r','\n'));
+                    callback(dataString.TrimEnd('\r', '\n'));
                     dataString = "";
                 }
                 yield return null;
