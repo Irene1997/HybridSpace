@@ -1,5 +1,5 @@
 #include <SoftwareSerial.h>
-//#include <SerialCommand.h>
+#include <SerialCommand.h>
 
 #define outputLeftA 2
 #define outputLeftB 3
@@ -13,7 +13,7 @@ int counterRight = 0;
 int aStateRight;
 int aLastStateRight;
 
-//SerialCommand sCmd;
+SerialCommand sCmd;
  
 void setup() { 
    pinMode (outputLeftA,INPUT);
@@ -24,13 +24,25 @@ void setup() {
    
    Serial.begin (9600);
    while (!Serial);
+
+  sCmd.addCommand("N", askName);
+  sCmd.addDefaultHandler(errorHandler);
    
    // Reads the initial state of the outputALeft
    aLastStateLeft = digitalRead(outputLeftA);  
 
     // Reads the initial state of the outputARight
    aLastStateRight = digitalRead(outputRightA); 
- } 
+ }
+
+void askName(){
+  Serial.println("N Wheelchair");
+}
+
+void errorHandler () {
+  Serial.println("E unreadable command.");
+}
+
 void loop() { 
    //CheckLeft();
    CheckRight();
