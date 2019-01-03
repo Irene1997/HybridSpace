@@ -1,0 +1,15 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\SteamVR_Input\SteamVR_Input_Actions.cs">
+    <Files>
+      <File FileName="Assets\Plugins\SteamVR\Scripts\SteamVR.cs" Line="176" Column="80" />
+      <File FileName="Assets\Plugins\SteamVR\readme.txt" Line="10" Column="32" />
+      <File FileName="Assets\Plugins\SteamVR\Input\SteamVR_Behaviour_Pose.cs" Line="105" Column="1" />
+      <File FileName="Assets\SteamVR_Input\SteamVR_Input_Actions.cs" Line="110" Column="39" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
