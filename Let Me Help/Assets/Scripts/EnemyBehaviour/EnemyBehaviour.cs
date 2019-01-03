@@ -51,7 +51,7 @@ public class EnemyBehaviour : MonoBehaviour
             bool temp = agent.SetDestination(destination);
             if (!temp) { throw new System.ArgumentException("Something went wrong when setting the destination"); }
         }
-        if (agent.destination != destination) { Debug.Log("agent.destination is not the destination we want it to be and we don't appreciate that..."); }
+        //if (agent.destination != destination) { Debug.Log("agent.destination is not the destination we want it to be and we don't appreciate that..."); }
 
     }
 
@@ -60,7 +60,10 @@ public class EnemyBehaviour : MonoBehaviour
     /// </summary>
     void Patrol()
     {
-        destination = patrolArea.patrolPoints[patrolPointer].position;
+        if (destination != patrolArea.patrolPoints[patrolPointer].position)
+        {
+            destination = patrolArea.patrolPoints[patrolPointer].position;
+        }
         
         if (patrolArea == null)
         { Debug.Log("I don't have a patrol area :("); return; }
@@ -69,8 +72,8 @@ public class EnemyBehaviour : MonoBehaviour
         if (Vector3.Distance(transform.position,patrolArea.patrolPoints[patrolPointer].position) <= patrolCatchDistance)
         {
 
-            Debug.Log("Yay I am at my DESTINATION.");
-            Debug.Log(agent.remainingDistance);
+            //Debug.Log("Yay I am at my DESTINATION.");
+            //Debug.Log(agent.remainingDistance);
             patrolPointer++;
 
             if (patrolPointer >= patrolArea.patrolPoints.Length)
@@ -79,7 +82,7 @@ public class EnemyBehaviour : MonoBehaviour
                 patrolPointer = 0;
             }
 
-            destination = patrolArea.patrolPoints[patrolPointer].position;
+            //destination = patrolArea.patrolPoints[patrolPointer].position;
         }
 
         //if the player is in the patrol area of this enemy, go into chase state
