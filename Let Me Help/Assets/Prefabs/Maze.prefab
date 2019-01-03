@@ -2950,7 +2950,7 @@ MonoBehaviour:
   state: 1
   speed: 2
   openProgress: 0
-  startOpen: 0
+  startOpen: 1
 --- !u!114 &114143515804320498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2965,7 +2965,7 @@ MonoBehaviour:
   state: 1
   speed: 2
   openProgress: 0
-  startOpen: 0
+  startOpen: 1
 --- !u!114 &114170762947737704
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3006,7 +3006,7 @@ MonoBehaviour:
   state: 1
   speed: 2
   openProgress: 0
-  startOpen: 0
+  startOpen: 1
 --- !u!114 &114247885560247956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3099,7 +3099,7 @@ MonoBehaviour:
   state: 1
   speed: 2
   openProgress: 0
-  startOpen: 0
+  startOpen: 1
 --- !u!114 &114476676978788444
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3153,7 +3153,7 @@ MonoBehaviour:
   state: 1
   speed: 2
   openProgress: 0
-  startOpen: 0
+  startOpen: 1
 --- !u!114 &114601657568209232
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3207,7 +3207,7 @@ MonoBehaviour:
   state: 1
   speed: 2
   openProgress: 0
-  startOpen: 0
+  startOpen: 1
 --- !u!114 &114698004297022882
 MonoBehaviour:
   m_ObjectHideFlags: 1
