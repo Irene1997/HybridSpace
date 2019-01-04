@@ -38,49 +38,89 @@ public class ArduinoHandler : MonoBehaviour {
 
     // Handle incomming messages from the Aruinos
     void ReadMessage(Arduino arduino, string message) {
+
         Debug.Log("Received '" + message + "' from " + arduino.name);
-        switch (arduino.name) {
-            case "Unnamed":
-                if (message[0] == 'N') {
-                    string name = message.TrimStart("N ".ToCharArray());
-                    arduino.name = name;
-                    namedArduinos.Add(new KeyValuePair<string, Arduino>(name, arduino));
-                    if (name == "MazeArduino") {
-                        arduino.Write("D");
-                    } else {
-                        Debug.Log("Message '" + message + "' from " + arduino.name + " could not be processed.");
-                    }
-                }
-                break;
-            case "MazeArduino":
-                if (message[0] == 'D') {
-                    int doorStates = int.Parse(message.Split(' ')[1]);
-                    for(int i = 0; i < GameController.Instance.doorScripts.Length; ++i) {
-                        if (((doorStates >> i) & 1) == 1) {
-                            GameController.Instance.doorScripts[i].Open();
-                        } else {
-                            GameController.Instance.doorScripts[i].Close();
-                        }
-                    }
+        switch (message[0]) {
+            case 'N':
+
+                string name = message.TrimStart("N ".ToCharArray());
+                arduino.name = name;
+                namedArduinos.Add(new KeyValuePair<string, Arduino>(name, arduino));
+                if (name == "MazeArduino") {
+                    arduino.Write("D");
                 } else {
                     Debug.Log("Message '" + message + "' from " + arduino.name + " could not be processed.");
                 }
+
                 break;
-            case "Wheelchair":
-                switch (message[0]) {
-                    case 'R':
-                        string[] parts = message.Split(' ');
-                        GameController.Instance.playerScript.UpdateMovement(int.Parse(parts[1]), int.Parse(parts[2]));
-                        break;
-                    default:
-                        Debug.Log("Message '" + message + "' from " + arduino.name + " could not be processed.");
-                        break;
+            case 'D':
+
+                int doorStates = int.Parse(message.Split(' ')[1]);
+                for (int i = 0; i < GameController.Instance.doorScripts.Length; ++i) {
+                    if (((doorStates >> i) & 1) == 1) {
+                        GameController.Instance.doorScripts[i].Open();
+                    } else {
+                        GameController.Instance.doorScripts[i].Close();
+                    }
                 }
+
+                Debug.Log("Message '" + message + "' from " + arduino.name + " could not be processed.");
+
                 break;
+            case 'R':
+
+                string[] parts = message.Split(' ');
+                GameController.Instance.playerScript.UpdateMovement(int.Parse(parts[1]), int.Parse(parts[2]));
+                break;
+
             default:
                 Debug.Log("Message '" + message + "' from " + arduino.name + " could not be processed.");
                 break;
         }
+
+        //Debug.Log("Received '" + message + "' from " + arduino.name);
+        //switch (arduino.name) {
+        //    case "Unnamed":
+        //        if (message[0] == 'N') {
+        //            string name = message.TrimStart("N ".ToCharArray());
+        //            arduino.name = name;
+        //            namedArduinos.Add(new KeyValuePair<string, Arduino>(name, arduino));
+        //            if (name == "MazeArduino") {
+        //                arduino.Write("D");
+        //            } else {
+        //                Debug.Log("Message '" + message + "' from " + arduino.name + " could not be processed.");
+        //            }
+        //        }
+        //        break;
+        //    case "MazeArduino":
+        //        if (message[0] == 'D') {
+        //            int doorStates = int.Parse(message.Split(' ')[1]);
+        //            for(int i = 0; i < GameController.Instance.doorScripts.Length; ++i) {
+        //                if (((doorStates >> i) & 1) == 1) {
+        //                    GameController.Instance.doorScripts[i].Open();
+        //                } else {
+        //                    GameController.Instance.doorScripts[i].Close();
+        //                }
+        //            }
+        //        } else {
+        //            Debug.Log("Message '" + message + "' from " + arduino.name + " could not be processed.");
+        //        }
+        //        break;
+        //    case "Wheelchair":
+        //        switch (message[0]) {
+        //            case 'R':
+        //                string[] parts = message.Split(' ');
+        //                GameController.Instance.playerScript.UpdateMovement(int.Parse(parts[1]), int.Parse(parts[2]));
+        //                break;
+        //            default:
+        //                Debug.Log("Message '" + message + "' from " + arduino.name + " could not be processed.");
+        //                break;
+        //        }
+        //        break;
+        //    default:
+        //        Debug.Log("Message '" + message + "' from " + arduino.name + " could not be processed.");
+        //        break;
+        //}
     }
 
     // Try to send a message to an Arduino
