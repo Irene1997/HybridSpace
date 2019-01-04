@@ -92,11 +92,12 @@ void CheckRight(){
 
 void GetValues()
 {
-  Serial.print("R ");
-  Serial.print(counterLeft);
-  Serial.print(" ");
-  Serial.println(counterRight);
+  if ((counterLeft | counterRight) != 0){
+    Serial.print("R ");
+    Serial.print(counterLeft);
+    Serial.print(" ");
+    Serial.println(counterRight);    
+  }
 
   counterLeft = 0; counterRight = 0;
 }
-
