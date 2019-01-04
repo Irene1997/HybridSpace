@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour {
     public Camera camera;
     public Transform leftWheel, rightWheel;
     public float rotationMultiplier, movementMultiplier;
-    int currentPosLeft = 0, currentPosRight = 0;
+    //int currentPosLeft = 0, currentPosRight = 0;
 
     Rigidbody rigidbody;
 

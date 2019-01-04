@@ -4,7 +4,7 @@
 SerialCommand sCmd;
 
 // Setting consttant values
-const int ledPinOffset = 2, columnAmount = 6, rowAmount = 5, buttonPin = 13, doorOffset = A0, doorAmount = 6, enemyAmount = 5;
+const int columnOffset = A0, columnAmount = 6, rowOffset = 8, rowAmount = 5, doorOffset = 2, doorAmount = 6, enemyAmount = 5;
 const unsigned long debounceDelay = 50;
 
 // Declaring some variables, they seem self explainatairy enough
@@ -35,22 +35,22 @@ void setup() {
   
   // Set all pinModes and standard outputs
   for (int i = 0; i < columnAmount; ++i) {
-    pinMode(ledPinOffset + i, INPUT);
+    pinMode(columnOffset + i, INPUT);
   }
   for (int i = 0; i < rowAmount; ++i) {
-    pinMode(ledPinOffset + columnAmount + i, OUTPUT);
-    digitalWrite(ledPinOffset + columnAmount + i, LOW);
+    pinMode(rowOffset + i, OUTPUT);
+    digitalWrite(rowOffset + i, LOW);
   }
-  pinMode(buttonPin, INPUT_PULLUP);
+  pinMode(buttonPin, OUTPUT);
   for (int i = 0; i < doorAmount; ++i) {
-    pinMode(doorOffset + i, INPUT_PULLUP);
+    pinMode(doorOffset + i, INPUT);
     if (digitalRead(doorOffset + i) == LOW){
       doorState |= 1 << i;
     }
   }
   
   // Run a test for the leds
-  testLeds();
+  //testLeds();
 }
 
 // Returns the name of the Arduino
@@ -60,7 +60,8 @@ void askName(){
 
 // Returns the current door states
 void askDoorState () {
-  Serial.println("D " + doorState);
+  Serial.print("D ");
+  Serial.println(doorState);
 }
 
 // Changes the player position
@@ -116,7 +117,7 @@ void newEnemyPosition () {
 
 // Returns an error to the serial
 void errorHandler () {
-  Serial.println("E unreadable command.");
+  //Serial.println("E unreadable command.");
 }
 
 // Turns on every LED one by one for a little while
@@ -187,27 +188,27 @@ void showPosition (int c, int r) {
     return;
   }
   if (activeColumn != c) {
-    pinMode(activeColumn + ledPinOffset, INPUT);
+    pinMode(activeColumn + columnOffset, INPUT);
     activeColumn = c;
-    pinMode(activeColumn + ledPinOffset, OUTPUT);
-    digitalWrite(activeColumn + ledPinOffset, LOW);
+    pinMode(activeColumn + columnOffset, OUTPUT);
+    digitalWrite(activeColumn + columnOffset, LOW);
   }
 
   if (activeRow != r) {
-    digitalWrite(activeRow + ledPinOffset + columnAmount, LOW);
+    digitalWrite(activeRow + rowOffset, LOW);
     activeRow = r;
-    digitalWrite(activeRow + ledPinOffset + columnAmount, HIGH);
+    digitalWrite(activeRow + rowOffset, HIGH);
   }
 }
 
 // Turns off all leds
 void showNoPosition () {
   if (activeColumn != -1) {
-    pinMode(activeColumn + ledPinOffset, INPUT);
+    pinMode(activeColumn + columnOffset, INPUT);
     activeColumn = -1;
   }
   if (activeRow != -1) {
-    digitalWrite(activeRow + ledPinOffset + columnAmount, LOW);
+    digitalWrite(activeRow + rowOffset, LOW);
     activeRow = -1;
   }
 }
