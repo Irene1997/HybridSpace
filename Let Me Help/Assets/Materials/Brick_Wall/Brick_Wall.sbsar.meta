@@ -94,8 +94,4 @@ ScriptedImporter:
       textureFormat: 0
       bGenerateOnLoad: 1
     material: {fileID: 2100000, guid: 6dc5de52b54787f4ea3fabb5fb188b11, type: 3}
-    generatedTextures:
-    - {fileID: 2800000, guid: 6dc5de52b54787f4ea3fabb5fb188b11, type: 3}
-    - {fileID: 2800002, guid: 6dc5de52b54787f4ea3fabb5fb188b11, type: 3}
-    - {fileID: 2800004, guid: 6dc5de52b54787f4ea3fabb5fb188b11, type: 3}
-    - {fileID: 2800006, guid: 6dc5de52b54787f4ea3fabb5fb188b11, type: 3}
+    generatedTextures: []
