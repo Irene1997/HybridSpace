@@ -9,7 +9,11 @@ public class GameController : MonoBehaviour {
 
     [SerializeField]
     Canvas canvasOfDeath;
+    [SerializeField]
+    Canvas canvasOfWinner;
 
+    [SerializeField] [Range(0, 50)]
+    private float winDistance;
     //public enum PlayerState { Alive, Dead };
 
     // Instances that can be accesed from every class via the Instance of this class
@@ -23,6 +27,9 @@ public class GameController : MonoBehaviour {
     public PlayerController playerScript;
 
     public ArduinoHandler arduinoHandler;
+
+    [SerializeField]
+    private Transform endPoint;
 
     // Use this for initialization
     void Start() {
@@ -39,13 +46,13 @@ public class GameController : MonoBehaviour {
             if (enemies == null) { Debug.LogWarning("No enemies could be found."); }
         }
         enemyControllers = enemies.GetComponentsInChildren<EnemyBehaviour>();
-
         arduinoHandler = GetComponent<ArduinoHandler>();
     }
 
     // Update is called once per frame
-    void Update() {
-
+    void Update()
+    {
+        DidPlayerWin();
     }
 
     // Tries to return the instance of this class
@@ -67,8 +74,18 @@ public class GameController : MonoBehaviour {
     public void PlayerDied()
     {
         Debug.Log("DEATH AND DESTRUCTION");
-        //canvasOfDeath.enabled = true;
         canvasOfDeath.gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// Checks if the player is a winner, and if so, activates the winning screen ^^
+    /// </summary>
+    public void DidPlayerWin()
+    {
+        if(Vector3.Distance(endPoint.position,player.transform.position) < winDistance)
+        {
+            canvasOfWinner.gameObject.SetActive(true);
+        }
     }
 }
 /*                  *\
