@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    public GameObject patrolAreasParent;
     public List<PatrolArea> patrolAreas;
     EnemyBehaviour[] enemies;
     float patrolTimer;
@@ -15,6 +16,7 @@ public class EnemyController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        patrolAreas = new List<PatrolArea>(patrolAreasParent.GetComponentsInChildren<PatrolArea>());
         enemies = GetComponentsInChildren<EnemyBehaviour>();
         RedistributePatrolPaths();
     }

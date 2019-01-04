@@ -55,11 +55,11 @@ public class ArduinoHandler : MonoBehaviour {
             case "MazeArduino":
                 if (message[0] == 'D') {
                     int doorStates = int.Parse(message.Split(' ')[1]);
-                    for(int i = 0; i < GameController.Instance.doors.Length; ++i) {
+                    for(int i = 0; i < GameController.Instance.doorScripts.Length; ++i) {
                         if (((doorStates >> i) & 1) == 1) {
-                            GameController.Instance.doors[i].Open();
+                            GameController.Instance.doorScripts[i].Open();
                         } else {
-                            GameController.Instance.doors[i].Close();
+                            GameController.Instance.doorScripts[i].Close();
                         }
                     }
                 } else {
