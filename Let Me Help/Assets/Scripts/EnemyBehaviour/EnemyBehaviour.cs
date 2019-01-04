@@ -10,8 +10,9 @@ public class EnemyBehaviour : MonoBehaviour
 
     NavMeshAgent agent;
 
-    [SerializeField]
     Vector3 destination;
+    [SerializeField] [Range(0,50)]
+    private float killDistance;
     public PatrolArea patrolArea;
     public int patrolPointer;
     float searchTimer;
@@ -37,6 +38,13 @@ public class EnemyBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Check whether the enemy has caught the player
+        if(Vector3.Distance(transform.position,gameController.player.transform.position)<= killDistance)
+        {
+            gameController.PlayerDied();
+        }
+
+
         //Decide a destination (if any) based on the current state of the enemy
         switch (currentState)
         {
