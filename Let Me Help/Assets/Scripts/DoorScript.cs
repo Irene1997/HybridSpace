@@ -9,15 +9,16 @@ public class DoorScript : MonoBehaviour {
     [SerializeField]
     State state;
     public float speed;
-    public float openProgress;
+    [SerializeField]
+    float openProgress = 1f;
     public bool startOpen;
 
     Vector3 closedPosition, openVector;
 
     // Use this for initialization
     void Start() {
-        closedPosition = transform.position;
         openVector = Vector3.down * transform.lossyScale.y;
+        closedPosition = transform.position - openVector;
         if (startOpen) {
             SetOpen();
         } else {
