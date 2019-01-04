@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\ArduinoHandler.cs" />
+     <Compile Include="Assets\Scripts\DeathController.cs" />
      <Compile Include="Assets\Scripts\DoorScript.cs" />
      <Compile Include="Assets\Scripts\EnemyBehaviour\EnemyBehaviour.cs" />
      <Compile Include="Assets\Scripts\EnemyBehaviour\EnemyController.cs" />

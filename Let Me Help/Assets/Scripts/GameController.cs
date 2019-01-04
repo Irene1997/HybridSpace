@@ -7,6 +7,9 @@ public class GameController : MonoBehaviour {
     // The instance of this class
     static GameController instance;
 
+    [SerializeField]
+    Canvas canvasOfDeath;
+
     //public enum PlayerState { Alive, Dead };
 
     // Instances that can be accesed from every class via the Instance of this class
@@ -51,7 +54,8 @@ public class GameController : MonoBehaviour {
             if (instance == null) {
                 instance = FindObjectOfType<GameController>();
                 if (instance == null) {
-                    Debug.LogWarning("No attached GameController could be found.");
+                         SceneManager.LoadScene(0);
+   Debug.LogWarning("No attached GameController could be found.");
                 } else {
                     instance.Start();
                 }
@@ -62,7 +66,9 @@ public class GameController : MonoBehaviour {
 
     public void PlayerDied()
     {
-        SceneManager.LoadScene(0);
+        Debug.Log("DEATH AND DESTRUCTION");
+        //canvasOfDeath.enabled = true;
+        canvasOfDeath.gameObject.SetActive(true);
     }
 }
 /*                  *\
