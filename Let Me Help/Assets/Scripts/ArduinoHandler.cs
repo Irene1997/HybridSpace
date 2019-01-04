@@ -68,11 +68,9 @@ public class ArduinoHandler : MonoBehaviour {
                 break;
             case "Wheelchair":
                 switch (message[0]) {
-                    case 'L':
-                        GameController.Instance.playerScript.ChangePosLeft(int.Parse(message.Split(' ')[1]));
-                        break;
                     case 'R':
-                        GameController.Instance.playerScript.ChangePosRight(int.Parse(message.Split(' ')[1]));
+                        string[] parts = message.Split(' ');
+                        GameController.Instance.playerScript.UpdateMovement(int.Parse(parts[1]), int.Parse(parts[2]));
                         break;
                     default:
                         Debug.Log("Message '" + message + "' from " + arduino.name + " could not be processed.");

@@ -57,17 +57,17 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    public void ChangePosLeft(int newPosLeft) {
-        float leftChange = newPosLeft - currentPosLeft;
-        currentPosLeft = newPosLeft;
-        UpdateMovement(leftChange, 0);
-    }
+    //public void ChangePosLeft(int newPosLeft) {
+    //    float leftChange = newPosLeft - currentPosLeft;
+    //    currentPosLeft = newPosLeft;
+    //    UpdateMovement(leftChange, 0);
+    //}
 
-    public void ChangePosRight(int newPosRight) {
-        float rightChange = newPosRight - currentPosRight;
-        currentPosRight = newPosRight;
-        UpdateMovement(0, rightChange);
-    }
+    //public void ChangePosRight(int newPosRight) {
+    //    float rightChange = newPosRight - currentPosRight;
+    //    currentPosRight = newPosRight;
+    //    UpdateMovement(0, rightChange);
+    //}
 
     public void UpdateMovement(float leftChange, float rightChange) {
 
