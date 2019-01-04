@@ -14,6 +14,9 @@ int aStateRight;
 int aLastStateRight;
 
 SerialCommand sCmd;
+
+unsigned long lastSendTime = 0;
+int sendInterval = 10;
  
 void setup() { 
    pinMode (outputLeftA,INPUT);
@@ -26,7 +29,7 @@ void setup() {
    while (!Serial);
 
   sCmd.addCommand("N", askName);
-  sCmd.addDefaultHandler(errorHandler);
+  sCmd.setDefaultHandler(errorHandler);
    
    // Reads the initial state of the outputALeft
    aLastStateLeft = digitalRead(outputLeftA);  
@@ -44,19 +47,26 @@ void errorHandler () {
 }
 
 void loop() { 
-   //CheckLeft();
-   CheckRight();
- }
+  CheckLeft();
+  CheckRight();
+  if ((millis() - lastSendTime) > sendInterval){
+    GetValues();
+    lastSendTime = millis();
+  }
+}
 
 void CheckLeft(){
   aStateLeft = digitalRead(outputLeftA); // Reads the "current" state of the outputA
    // If the previous and the current state of the outputA are different, that means a Pulse has occured
    if (aStateLeft != aLastStateLeft){     
      // If the outputB state is different to the outputA state, that means the encoder is rotating clockwise
-     if (digitalRead(outputLeftB) != aStateLeft) { 
-       Serial.println("LeftUp");
-     } else {
-       Serial.println("LeftDown");
+     if (digitalRead(outputLeftB) != aStateLeft) 
+     { 
+       counterLeft ++;
+     }      
+     else 
+     {
+       counterLeft--;
      }
      //Serial.println(counterLeft);
      //Serial.println(counterLeft);
@@ -74,8 +84,19 @@ void CheckRight(){
      } else {
        counterRight --;
      }
-     Serial.print("Right ");
-     Serial.println(counterRight);
+     //Serial.print("Right ");
+     //Serial.println(counterRight);
    } 
    aLastStateRight = aStateRight; // Updates the previous state of the outputA with the current state
 }
+
+void GetValues()
+{
+  Serial.print("R ");
+  Serial.print(counterLeft);
+  Serial.print(" ");
+  Serial.println(counterRight);
+
+  counterLeft = 0; counterRight = 0;
+}
+
