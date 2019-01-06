@@ -27,8 +27,7 @@ void setup() {
   while (!Serial);
 
   // Assigning methods to incomming commands
-  sCmd.addCommand("N", askName);
-  sCmd.addCommand("D", askDoorState);
+  sCmd.addCommand("S", startCommunication);
   sCmd.addCommand("P", newPlayerPosition);
   sCmd.addCommand("M", newEnemyPosition);
   sCmd.addDefaultHandler(errorHandler);
@@ -41,7 +40,6 @@ void setup() {
     pinMode(rowOffset + i, OUTPUT);
     digitalWrite(rowOffset + i, LOW);
   }
-  pinMode(buttonPin, OUTPUT);
   for (int i = 0; i < doorAmount; ++i) {
     pinMode(doorOffset + i, INPUT);
     if (digitalRead(doorOffset + i) == LOW){
@@ -54,8 +52,8 @@ void setup() {
 }
 
 // Returns the name of the Arduino
-void askName(){
-  Serial.println("N MazeArduino");
+void startCommunication(){
+  askDoorState();
 }
 
 // Returns the current door states

@@ -12,49 +12,34 @@ public class ArduinoHandler : MonoBehaviour {
     [Tooltip("The read delay after a failed read attempt in seconds")]
     public float readDelay = 0.05f;
     // The dictionary containing all created Arduino connections by name
-    public IDictionary<string, Arduino> namedArduinos;
     IList<Arduino> arduinos;
 
 
     public void Start() {
         arduinos = new List<Arduino>();
-        namedArduinos = new Dictionary<string, Arduino>();
         // Get all connected ports
         string[] ports = SerialPort.GetPortNames();
         // Try to make a connection to an Arduino for each port
         foreach (string port in ports) {
             Arduino arduino = Arduino.StartArduino(port, readTimeout, readDelay);
             if (arduino != null) {
-                StartCoroutine(arduino.AsynchronousReadFromArduino((string s) => ReadMessage(arduino, s)));
+                StartCoroutine(arduino.AsynchronousReadFromArduino((string s) => ReadMessage(s)));
                 arduinos.Add(arduino);
             }
         }
 
         // Send initializing commands to each Arduino
         foreach (Arduino arduino in arduinos) {
-            arduino.Write("N");
+            arduino.Write("S");
         }
     }
 
     // Handle incomming messages from the Aruinos
-    void ReadMessage(Arduino arduino, string message) {
+    void ReadMessage(string message) {
 
-        Debug.Log("Received '" + message + "' from " + arduino.name);
+        Debug.Log("Received '" + message + "'.");
         switch (message[0]) {
-            case 'N':
-
-                string name = message.TrimStart("N ".ToCharArray());
-                arduino.name = name;
-                namedArduinos.Add(new KeyValuePair<string, Arduino>(name, arduino));
-                if (name == "MazeArduino") {
-                    arduino.Write("D");
-                } else {
-                    Debug.Log("Message '" + message + "' from " + arduino.name + " could not be processed.");
-                }
-
-                break;
             case 'D':
-
                 int doorStates = int.Parse(message.Split(' ')[1]);
                 for (int i = 0; i < GameController.Instance.doorScripts.Length; ++i) {
                     if (((doorStates >> i) & 1) == 1) {
@@ -63,18 +48,13 @@ public class ArduinoHandler : MonoBehaviour {
                         GameController.Instance.doorScripts[i].Close();
                     }
                 }
-
-                Debug.Log("Message '" + message + "' from " + arduino.name + " could not be processed.");
-
                 break;
             case 'R':
-
                 string[] parts = message.Split(' ');
                 GameController.Instance.playerScript.UpdateMovement(int.Parse(parts[1]), int.Parse(parts[2]));
                 break;
-
             default:
-                Debug.Log("Message '" + message + "' from " + arduino.name + " could not be processed.");
+                Debug.Log("Message '" + message + "' could not be processed.");
                 break;
         }
 
@@ -124,12 +104,18 @@ public class ArduinoHandler : MonoBehaviour {
     }
 
     // Try to send a message to an Arduino
-    public void WriteToArduino(string arduinoName, string message) {
-        if (namedArduinos.ContainsKey(arduinoName)) {
-            namedArduinos[arduinoName].Write(message);
-        } else {
-            Debug.Log(arduinoName + " is not a known name");
+    public void Write(string message) {
+        foreach (Arduino arduino in arduinos) {
+            arduino.Write(message);
         }
+    }
+
+    public void WritePlayerPosition(int col, int row) {
+        Write("P " + col + " " + row);
+    }
+
+    public void WriteMonsterPosition(int index, int col, int row) {
+        Write("M " + index + " " + col + " " + row);
     }
 
     // Close connections on exit
@@ -142,7 +128,7 @@ public class ArduinoHandler : MonoBehaviour {
 }
 
 public class Arduino {
-    public string name = "Unnamed", port;
+    public string port;
     public SerialPort stream;
     float readDelay;
 
