@@ -6,7 +6,9 @@ public class LedPositionsHandler : MonoBehaviour {
     // Stores all known LED positions
     LedPosition[] ledPositions;
     // Stores the corresponding LED position of the player and enemies
+    [SerializeField]
     LedPosition playerLed;
+    [SerializeField]
     LedPosition[] enemyLeds;
 
     // Initialization
@@ -25,7 +27,7 @@ public class LedPositionsHandler : MonoBehaviour {
         }
         // Finds the closest LED for each enemy
         for (int i = 0; i < enemyLeds.Length; ++i) {
-            closestLed = ClosestToPosition(GameController.Instance.enemies.GetComponentsInChildren<Transform>()[i].position);
+            closestLed = ClosestToPosition(GameController.Instance.enemyControllers[i].transform.position);
             if (closestLed != enemyLeds[i]) {
                 enemyLeds[i] = closestLed;
                 GameController.Instance.arduinoHandler.WriteMonsterPosition(i, closestLed.col, closestLed.row);
@@ -45,5 +47,12 @@ public class LedPositionsHandler : MonoBehaviour {
             }
         }
         return closestLed;
+    }
+
+    public void SendAllCurrentStates() {
+        GameController.Instance.arduinoHandler.WritePlayerPosition(playerLed.col, playerLed.row);
+        for (int i = 0; i < enemyLeds.Length; ++i) {
+            GameController.Instance.arduinoHandler.WriteMonsterPosition(i, enemyLeds[i].col, enemyLeds[i].row);
+        }
     }
 }

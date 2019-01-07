@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class DoorScript : MonoBehaviour {
     enum State { Open, Closed, Opening, Closing }
 
+    public int id;
     [SerializeField]
     State state;
     public float speed;

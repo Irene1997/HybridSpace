@@ -12,7 +12,8 @@ public class GameController : MonoBehaviour {
     [SerializeField]
     Canvas canvasOfWinner;
 
-    [SerializeField] [Range(0, 50)]
+    [SerializeField]
+    [Range(0, 50)]
     private float winDistance;
     //public enum PlayerState { Alive, Dead };
 
@@ -27,7 +28,7 @@ public class GameController : MonoBehaviour {
     public GameObject doors;
     public DoorScript[] doorScripts;
 
-
+    public LedPositionsHandler ledPositionsHandler;
     public ArduinoHandler arduinoHandler;
 
     [SerializeField]
@@ -52,21 +53,28 @@ public class GameController : MonoBehaviour {
             if (enemies == null) { Debug.LogWarning("No enemies could be found."); }
         }
         if (enemyControllers == null || enemyControllers.Length == 0) {
-        enemyControllers = enemies.GetComponentsInChildren<EnemyBehaviour>();
+            enemyControllers = enemies.GetComponentsInChildren<EnemyBehaviour>();
         }
         if (doors == null) {
             doors = GameObject.Find("Doors");
             if (doors == null) { Debug.LogWarning("No doors could be found."); }
         }
         if (doorScripts == null || doorScripts.Length == 0) {
-            doorScripts = doors.GetComponentsInChildren<DoorScript>();
+            DoorScript[] temporaryDoorScripts = doors.GetComponentsInChildren<DoorScript>();
+            doorScripts = new DoorScript[temporaryDoorScripts.Length];
+            foreach(DoorScript doorScript in temporaryDoorScripts) {
+                doorScripts[doorScript.id - 1] = doorScript;
+            }
+        }
+        if (ledPositionsHandler == null) {
+            ledPositionsHandler = GameObject.Find("LedPositions").GetComponent<LedPositionsHandler>();
+            if (ledPositionsHandler == null) { Debug.LogWarning("No ledPositionsHandler could be found."); }
         }
         arduinoHandler = GetComponent<ArduinoHandler>();
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         DidPlayerWin();
     }
 
@@ -76,8 +84,8 @@ public class GameController : MonoBehaviour {
             if (instance == null) {
                 instance = FindObjectOfType<GameController>();
                 if (instance == null) {
-                         SceneManager.LoadScene(0);
-   Debug.LogWarning("No attached GameController could be found.");
+                    SceneManager.LoadScene(0);
+                    Debug.LogWarning("No attached GameController could be found.");
                 } else {
                     instance.Start();
                 }
@@ -86,19 +94,16 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    public void PlayerDied()
-    {
-        Debug.Log("DEATH AND DESTRUCTION");
+    public void PlayerDied() {
+        //Debug.Log("DEATH AND DESTRUCTION");
         canvasOfDeath.gameObject.SetActive(true);
     }
 
     /// <summary>
     /// Checks if the player is a winner, and if so, activates the winning screen ^^
     /// </summary>
-    public void DidPlayerWin()
-    {
-        if(Vector3.Distance(endPoint.position,player.transform.position) < winDistance)
-        {
+    public void DidPlayerWin() {
+        if (Vector3.Distance(endPoint.position, player.transform.position) < winDistance) {
             canvasOfWinner.gameObject.SetActive(true);
         }
     }

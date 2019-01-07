@@ -28,6 +28,7 @@ void setup() {
 
   // Assigning methods to incomming commands
   sCmd.addCommand("S", startCommunication);
+  sCmd.addCommand("T", testLeds);
   sCmd.addCommand("P", newPlayerPosition);
   sCmd.addCommand("M", newEnemyPosition);
   sCmd.addDefaultHandler(errorHandler);
@@ -53,11 +54,11 @@ void setup() {
 
 // Returns the name of the Arduino
 void startCommunication(){
-  askDoorState();
+  sendDoorState();
 }
 
 // Returns the current door states
-void askDoorState () {
+void sendDoorState () {
   Serial.print("D ");
   Serial.println(doorState);
 }
@@ -171,11 +172,13 @@ void loop() {
 void checkDoors() {
   int newState = 0;
   for (int i = 0; i < doorAmount; ++i) {
-    newState |= 1 << i;
+    if (digitalRead(doorOffset + i) == LOW){
+      newState |= 1 << i;
+    }
   }
   if (newState != doorState) {
     doorState = newState;
-    askDoorState();
+    sendDoorState();
   }
 }
 

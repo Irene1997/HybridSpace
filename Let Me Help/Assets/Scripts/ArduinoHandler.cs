@@ -32,6 +32,7 @@ public class ArduinoHandler : MonoBehaviour {
         foreach (Arduino arduino in arduinos) {
             arduino.Write("S");
         }
+        GameController.Instance.ledPositionsHandler.SendAllCurrentStates();
     }
 
     // Handle incomming messages from the Aruinos
@@ -43,9 +44,9 @@ public class ArduinoHandler : MonoBehaviour {
                 int doorStates = int.Parse(message.Split(' ')[1]);
                 for (int i = 0; i < GameController.Instance.doorScripts.Length; ++i) {
                     if (((doorStates >> i) & 1) == 1) {
-                        GameController.Instance.doorScripts[i].Open();
-                    } else {
                         GameController.Instance.doorScripts[i].Close();
+                    } else {
+                        GameController.Instance.doorScripts[i].Open();
                     }
                 }
                 break;
@@ -120,6 +121,10 @@ public class ArduinoHandler : MonoBehaviour {
 
     // Close connections on exit
     public void OnApplicationQuit() {
+        WritePlayerPosition(-1, -1);
+        for (int i = 0; i < GameController.Instance.enemyControllers.Length; ++i) {
+            WriteMonsterPosition(i, -1, -1);
+        }
         Debug.Log("Closing Arduino connections...");
         foreach (Arduino arduino in arduinos) {
             arduino.Close();
