@@ -2,19 +2,6 @@ fileFormatVersion: 2
 guid: 6dc5de52b54787f4ea3fabb5fb188b11
 ScriptedImporter:
   fileIDToRecycleName:
-    100000: Brick_Wall/Brick_Wall
-    400000: Brick_Wall/Brick_Wall/Transform
-    2100000: mat.Brick_Wall
-    2300000: Brick_Wall/Brick_Wall/MeshRenderer
-    2800000: Brick_Wall_baseColor
-    2800002: Brick_Wall_normal
-    2800004: Brick_Wall_metallic
-    2800006: Brick_Wall_height
-    3300000: Brick_Wall/Brick_Wall/MeshFilter
-    11400000: sbsar
-    11400002: graph0
-    13500000: Brick_Wall/Brick_Wall/SphereCollider
-    100100000: Brick_Wall
     2186277476908879412: ImportLogs
   externalObjects: {}
   userData: 

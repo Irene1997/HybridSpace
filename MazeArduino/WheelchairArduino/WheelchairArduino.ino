@@ -1,5 +1,5 @@
 #include <SoftwareSerial.h>
-#include <SerialCommand.h>
+//#include <SerialCommand.h>
 
 #define outputLeftA 2
 #define outputLeftB 3
@@ -13,7 +13,7 @@ int counterRight = 0;
 int aStateRight;
 int aLastStateRight;
 
-SerialCommand sCmd;
+//SerialCommand sCmd;
 
 unsigned long lastSendTime = 0;
 int sendInterval = 10;
@@ -28,8 +28,8 @@ void setup() {
    Serial.begin (9600);
    while (!Serial);
 
-  sCmd.addCommand("N", askName);
-  sCmd.setDefaultHandler(errorHandler);
+  //sCmd.addCommand("N", askName);
+  //sCmd.setDefaultHandler(errorHandler);
    
    // Reads the initial state of the outputALeft
    aLastStateLeft = digitalRead(outputLeftA);  
@@ -38,13 +38,13 @@ void setup() {
    aLastStateRight = digitalRead(outputRightA); 
  }
 
-void askName(){
-  Serial.println("N Wheelchair");
-}
+//void askName(){
+//  Serial.println("N Wheelchair");
+//}
 
-void errorHandler () {
-  Serial.println("E unreadable command.");
-}
+//void errorHandler () {
+//  Serial.println("E unreadable command.");
+//}
 
 void loop() { 
   CheckLeft();
