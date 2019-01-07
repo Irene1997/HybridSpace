@@ -14,12 +14,18 @@ public class PlayerController : MonoBehaviour {
     public int playerHP = 20;
     public Text hpText;
 
+    float left, right;
+
     void Start() {
         rigidbody = GetComponent<Rigidbody>();
     }
 
-    void Update() {
-        OldUpdateMovement();
+    void FixedUpdate() {
+        //OldUpdateMovement();
+        //UpdateMovement(left, right);
+        //left = 0; right = 0;
+
+        UpdateMovement(left / 18, right / 18);
     }
 
     void OnCollisionEnter(Collision col) {
@@ -75,8 +81,12 @@ public class PlayerController : MonoBehaviour {
         float movement = (leftChange + rightChange) * movementMultiplier;
 
         rigidbody.AddTorque(Vector3.up * rotation);
-        rigidbody.AddRelativeForce(Vector3.forward * movement);
+        rigidbody.AddRelativeForce(Vector3.forward * movement);        
+    }
 
+    public void CallMovement(float leftChange, float rightChange)
+    {
+        left = leftChange; right = rightChange;
     }
 
 

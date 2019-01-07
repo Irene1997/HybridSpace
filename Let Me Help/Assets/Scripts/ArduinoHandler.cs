@@ -52,7 +52,7 @@ public class ArduinoHandler : MonoBehaviour {
                 break;
             case 'R':
                 string[] parts = message.Split(' ');
-                GameController.Instance.playerScript.UpdateMovement(int.Parse(parts[1]), int.Parse(parts[2]));
+                GameController.Instance.playerScript.CallMovement(int.Parse(parts[1]), int.Parse(parts[2]));
                 break;
             default:
                 Debug.Log("Message '" + message + "' could not be processed.");

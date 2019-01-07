@@ -1,5 +1,5 @@
 #include <SoftwareSerial.h>
-//#include <SerialCommand.h>
+#include <SerialCommand.h>
 
 #define outputLeftA 2
 #define outputLeftB 3
@@ -13,10 +13,13 @@ int counterRight = 0;
 int aStateRight;
 int aLastStateRight;
 
-//SerialCommand sCmd;
+int oldLeft = 0;
+int oldRight = 0;
+
+SerialCommand sCmd;
 
 unsigned long lastSendTime = 0;
-int sendInterval = 10;
+int sendInterval = 200;
  
 void setup() { 
    pinMode (outputLeftA,INPUT);
@@ -28,8 +31,8 @@ void setup() {
    Serial.begin (9600);
    while (!Serial);
 
-  //sCmd.addCommand("N", askName);
-  //sCmd.setDefaultHandler(errorHandler);
+  sCmd.addCommand("N", askName);
+  sCmd.setDefaultHandler(errorHandler);
    
    // Reads the initial state of the outputALeft
    aLastStateLeft = digitalRead(outputLeftA);  
@@ -38,13 +41,13 @@ void setup() {
    aLastStateRight = digitalRead(outputRightA); 
  }
 
-//void askName(){
-//  Serial.println("N Wheelchair");
-//}
+void askName(){
+  Serial.println("N Wheelchair");
+}
 
-//void errorHandler () {
-//  Serial.println("E unreadable command.");
-//}
+void errorHandler () {
+  Serial.println("E unreadable command.");
+}
 
 void loop() { 
   CheckLeft();
@@ -92,12 +95,15 @@ void CheckRight(){
 
 void GetValues()
 {
-  if ((counterLeft | counterRight) != 0){
-    Serial.print("R ");
-    Serial.print(counterLeft);
-    Serial.print(" ");
-    Serial.println(counterRight);    
-  }
-
+  //if(counterLeft | counterRight !=0)
+  if(counterLeft != oldLeft || counterRight != oldRight)
+  {  
+  Serial.print("R ");
+  Serial.print(counterLeft);
+  Serial.print(" ");
+  Serial.println(counterRight);
+}
+  oldLeft = counterLeft; oldRight = counterRight;
   counterLeft = 0; counterRight = 0;
 }
+
