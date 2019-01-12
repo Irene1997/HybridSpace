@@ -1042,6 +1042,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ee33271ce5890441bf964ecc30dfe24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerLed: {fileID: 114244836767154626}
+  enemyLeds:
+  - {fileID: 114481695148834134}
+  - {fileID: 114244836767154626}
+  - {fileID: 114246552039215532}
+  - {fileID: 114244836767154626}
+  - {fileID: 114473190695052880}
 --- !u!114 &114323316994238670
 MonoBehaviour:
   m_ObjectHideFlags: 1

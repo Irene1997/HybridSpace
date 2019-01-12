@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114710169136370012}
   - component: {fileID: 114394291931850396}
   - component: {fileID: 114768224828753598}
+  - component: {fileID: 114098871073393070}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -51,7 +52,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1811426664757944}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.4, y: 0, z: 31.3}
+  m_LocalPosition: {x: -33, y: 0, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4231243620222448}
@@ -63,7 +64,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1206891540028872}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -71,6 +72,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114098871073393070
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1206891540028872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 247442469, guid: f7b54ff4a43d4fcf81b4538b678e0bcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SurfaceParent: {fileID: 0}
+  m_FreezeUpdates: 0
+  m_VolumeType: 1
+  m_SphereRadius: 2
+  m_HalfBoxExtents: {x: 4, y: 4, z: 4}
+  m_LodType: 1
+  m_NumUpdatesBeforeRemoval: 10
+  m_SecondsBetweenUpdates: 2.5
+  m_Layer: 0
+  m_Material: {fileID: 0}
+  m_EnableCollisions: 1
 --- !u!114 &114394291931850396
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -84,7 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baudrate: 9600
   readTimeout: 1
-  readDelay: 0.05
+  readDelay: 0.001
 --- !u!114 &114710169136370012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -100,13 +123,24 @@ MonoBehaviour:
   canvasOfWinner: {fileID: 0}
   winDistance: 1.5
   player: {fileID: 0}
-  enemies: {fileID: 0}
-  enemyControllers: []
-  doors:
-  - {fileID: 0}
-  - {fileID: 0}
   playerScript: {fileID: 0}
-  arduinoHandler: {fileID: 0}
+  enemies: {fileID: 0}
+  enemyControllers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  doors: {fileID: 0}
+  doorScripts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  ledPositionsHandler: {fileID: 0}
+  arduinoHandler: {fileID: 114394291931850396}
   endPoint: {fileID: 4189743157776258}
 --- !u!114 &114768224828753598
 MonoBehaviour:
@@ -122,5 +156,5 @@ MonoBehaviour:
   music:
   - {fileID: 0}
   - {fileID: 0}
-  counter: 0
+  counter: 1
   max: 1
