@@ -9,7 +9,7 @@ const unsigned long debounceDelay = 50;
 
 // Declaring some variables, they seem self explainatairy enough
 int activeColumn = -1, activeRow = -1, activeEnemy = 0;
-int playerPosition [2] = {-1, -1};
+int playerPosition [2] = {5, 0};
 int enemyPositions [enemyAmount * 2];
 int doorState = 0;
 unsigned long lastDoorsCheck = 0, lastDebounceTime = 0, lastToggleTime = 0;
@@ -21,6 +21,12 @@ void setup() {
   for (int i = 0; i < enemyAmount * 2; ++i) {
     enemyPositions[i] = -1;
   }
+  enemyPositions[0] = 1;
+  enemyPositions[1] = 4;
+  enemyPositions[2] = 1;
+  enemyPositions[3] = 4;
+  enemyPositions[4] = 1;
+  enemyPositions[5] = 4;
 
   // Start the serial communication
   Serial.begin(9600);

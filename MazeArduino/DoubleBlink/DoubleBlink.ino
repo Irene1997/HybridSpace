@@ -1,4 +1,4 @@
-#define BlinkPin 3
+#define BlinkPin 13
 
 long timeToChange = 0;
 int state = 0;
