@@ -1,0 +1,240 @@
+fileFormatVersion: 2
+guid: 584ba1548f7afff41ae528d61bf469b5
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:polySurface1
+    100002: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:polySurface390
+    100004: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform1
+    100006: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform10
+    100008: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform11
+    100010: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform12
+    100012: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform13
+    100014: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform14
+    100016: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform15
+    100018: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform16
+    100020: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform17
+    100022: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform18
+    100024: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform19
+    100026: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform2
+    100028: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform20
+    100030: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform21
+    100032: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform22
+    100034: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform23
+    100036: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform3
+    100038: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform4
+    100040: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform5
+    100042: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform6
+    100044: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform7
+    100046: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform8
+    100048: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform9
+    100050: Boot_OBJ:Boot_OBJ:polySurface389
+    100052: Boot_OBJ:Boot_OBJ:polySurface390
+    100054: Boot_OBJ:Boot_OBJ:polySurface391
+    100056: Boot_OBJ:Boot_OBJ:polySurface392
+    100058: Boot_OBJ:Boot_OBJ:polySurface393
+    100060: Boot_OBJ:Boot_OBJ:polySurface394
+    100062: Boot_OBJ:Boot_OBJ:polySurface395
+    100064: Boot_OBJ:Boot_OBJ:polySurface396
+    100066: Boot_OBJ:Boot_OBJ:polySurface397
+    100068: Boot_OBJ:Boot_OBJ:polySurface398
+    100070: Boot_OBJ:Boot_OBJ:polySurface399
+    100072: Boot_OBJ:Boot_OBJ:polySurface400
+    100074: Boot_OBJ:Boot_OBJ:polySurface401
+    100076: Boot_OBJ:Boot_OBJ:polySurface402
+    100078: Boot_OBJ:Boot_OBJ:polySurface403
+    100080: Boot_OBJ:Boot_OBJ:polySurface404
+    100082: Boot_OBJ:Boot_OBJ:polySurface405
+    100084: Boot_OBJ:Boot_OBJ:polySurface406
+    100086: Boot_OBJ:Boot_OBJ:polySurface407
+    100088: Boot_OBJ:Boot_OBJ:polySurface408
+    100090: Boot_OBJ:Boot_OBJ:polySurface409
+    100092: Boot_OBJ:Boot_OBJ:polySurface410
+    100094: Boot_OBJ:Boot_OBJ:polySurface411
+    100096: Boot_OBJ:Boot_OBJ:polySurface412
+    100098: polySurface389
+    100100: //RootNode
+    400000: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:polySurface1
+    400002: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:polySurface390
+    400004: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform1
+    400006: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform10
+    400008: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform11
+    400010: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform12
+    400012: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform13
+    400014: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform14
+    400016: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform15
+    400018: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform16
+    400020: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform17
+    400022: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform18
+    400024: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform19
+    400026: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform2
+    400028: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform20
+    400030: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform21
+    400032: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform22
+    400034: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform23
+    400036: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform3
+    400038: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform4
+    400040: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform5
+    400042: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform6
+    400044: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform7
+    400046: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform8
+    400048: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:transform9
+    400050: Boot_OBJ:Boot_OBJ:polySurface389
+    400052: Boot_OBJ:Boot_OBJ:polySurface390
+    400054: Boot_OBJ:Boot_OBJ:polySurface391
+    400056: Boot_OBJ:Boot_OBJ:polySurface392
+    400058: Boot_OBJ:Boot_OBJ:polySurface393
+    400060: Boot_OBJ:Boot_OBJ:polySurface394
+    400062: Boot_OBJ:Boot_OBJ:polySurface395
+    400064: Boot_OBJ:Boot_OBJ:polySurface396
+    400066: Boot_OBJ:Boot_OBJ:polySurface397
+    400068: Boot_OBJ:Boot_OBJ:polySurface398
+    400070: Boot_OBJ:Boot_OBJ:polySurface399
+    400072: Boot_OBJ:Boot_OBJ:polySurface400
+    400074: Boot_OBJ:Boot_OBJ:polySurface401
+    400076: Boot_OBJ:Boot_OBJ:polySurface402
+    400078: Boot_OBJ:Boot_OBJ:polySurface403
+    400080: Boot_OBJ:Boot_OBJ:polySurface404
+    400082: Boot_OBJ:Boot_OBJ:polySurface405
+    400084: Boot_OBJ:Boot_OBJ:polySurface406
+    400086: Boot_OBJ:Boot_OBJ:polySurface407
+    400088: Boot_OBJ:Boot_OBJ:polySurface408
+    400090: Boot_OBJ:Boot_OBJ:polySurface409
+    400092: Boot_OBJ:Boot_OBJ:polySurface410
+    400094: Boot_OBJ:Boot_OBJ:polySurface411
+    400096: Boot_OBJ:Boot_OBJ:polySurface412
+    400098: polySurface389
+    400100: //RootNode
+    2100000: lambert4
+    2100002: phongE1
+    2100004: lambert3
+    2100006: lambert5
+    2100008: lambert1
+    2100010: Boot_OBJ_lambert1
+    2100012: lambert6
+    2300000: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:polySurface390
+    2300002: Boot_OBJ:Boot_OBJ:polySurface389
+    2300004: polySurface389
+    3300000: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:polySurface390
+    3300002: Boot_OBJ:Boot_OBJ:polySurface389
+    3300004: polySurface389
+    4300000: polySurface389
+    4300002: Boot_OBJ:Boot_OBJ:polySurface389
+    4300004: Boot_OBJ:Boot_OBJ:Boot_OBJ:Boot_OBJ:polySurface390
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Boot_OBJ_lambert1
+    second: {fileID: 2100000, guid: d387add32ecb7ad4d9ce2fa8626027e7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: a2b2146acb411d745bf1856519707685, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert3
+    second: {fileID: 2100000, guid: d4453e65a32bce843b835ff750def8c2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert4
+    second: {fileID: 2100000, guid: d2a47052db2ba95468c7a3eb947d6b5a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert5
+    second: {fileID: 2100000, guid: a5c2645119cd31e4fa719ffb800b1dfa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert6
+    second: {fileID: 2100000, guid: ed4ffb4c348cb2846aeed55611720857, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: phongE1
+    second: {fileID: 2100000, guid: 3415f2669ba4b554e83c162c7c27705e, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
