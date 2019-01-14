@@ -1,0 +1,14 @@
+<sbspresets count="1" formatversion="1.1">
+  <sbspreset pkgurl="pkg://Brick_Wall" label="" >
+  <presetinput identifier="$outputsize" uid="1160043161" type="8" value="10,10" />
+  <presetinput identifier="plaster_height" uid="908384936" type="0" value="0.992" />
+  <presetinput identifier="plaster_discoloration" uid="907214486" type="0" value="0.98" />
+  <presetinput identifier="plaster_dirt" uid="907193173" type="0" value="0.35" />
+  <presetinput identifier="Water" uid="910149627" type="0" value="0.9" />
+  <presetinput identifier="B1_Luminosity" uid="908186312" type="0" value="0.497" />
+  <presetinput identifier="B2_Luminosity" uid="908186265" type="0" value="0.4899" />
+  <presetinput identifier="B3_Luminosity" uid="908186282" type="0" value="0.5134" />
+  <presetinput identifier="B4_Luminosity" uid="908185928" type="0" value="0.4757" />
+  <presetinput identifier="B5_Luminosity" uid="908185968" type="0" value="0.5374" />
+ </sbspreset>
+</sbspresets>

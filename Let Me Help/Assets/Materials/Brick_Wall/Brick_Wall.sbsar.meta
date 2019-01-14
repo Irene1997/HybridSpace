@@ -28,14 +28,15 @@ ScriptedImporter:
     generateAllOutputs: 0
     generateMipMaps: 1
     preset: " <sbspreset pkgurl=\"pkg://Brick_Wall\" label=\"\" >\n  <presetinput
-      identifier=\"$outputsize\" uid=\"1160043161\" type=\"8\" value=\"10,10\" />\n
+      identifier=\"$outputsize\" uid=\"1160043161\" type=\"8\" value=\"11,11\" />\n
       \ <presetinput identifier=\"plaster_height\" uid=\"908384936\" type=\"0\" value=\"0.992\"
       />\n  <presetinput identifier=\"plaster_discoloration\" uid=\"907214486\" type=\"0\"
       value=\"0.98\" />\n  <presetinput identifier=\"plaster_dirt\" uid=\"907193173\"
-      type=\"0\" value=\"0.35\" />\n  <presetinput identifier=\"Water\" uid=\"910149627\"
-      type=\"0\" value=\"0.9\" />\n  <presetinput identifier=\"B1_Luminosity\" uid=\"908186312\"
-      type=\"0\" value=\"0.497\" />\n  <presetinput identifier=\"B2_Luminosity\" uid=\"908186265\"
-      type=\"0\" value=\"0.4899\" />\n  <presetinput identifier=\"B3_Luminosity\"
+      type=\"0\" value=\"0.35\" />\n  <presetinput identifier=\"Mold_Saturation\"
+      uid=\"908141307\" type=\"0\" value=\"0.333\" />\n  <presetinput identifier=\"Water\"
+      uid=\"910149627\" type=\"0\" value=\"0.9\" />\n  <presetinput identifier=\"B1_Luminosity\"
+      uid=\"908186312\" type=\"0\" value=\"0.497\" />\n  <presetinput identifier=\"B2_Luminosity\"
+      uid=\"908186265\" type=\"0\" value=\"0.4899\" />\n  <presetinput identifier=\"B3_Luminosity\"
       uid=\"908186282\" type=\"0\" value=\"0.5134\" />\n  <presetinput identifier=\"B4_Luminosity\"
       uid=\"908185928\" type=\"0\" value=\"0.4757\" />\n  <presetinput identifier=\"B5_Luminosity\"
       uid=\"908185968\" type=\"0\" value=\"0.5374\" />\n </sbspreset>\n"
@@ -77,20 +78,20 @@ ScriptedImporter:
     - outputName: baseColor
       bLinear: 0
     - outputName: normal
-      bLinear: 1
+      bLinear: 0
     - outputName: roughness
       bLinear: 1
     - outputName: metallic
       bLinear: 1
     - outputName: height
-      bLinear: 1
+      bLinear: 0
     inputTextureMap: []
     targetSettingList:
     - label: 
       bLockRatio: 1
       bHighQuality: 1
-      textureWidth: 1024
-      textureHeight: 1024
+      textureWidth: 2048
+      textureHeight: 2048
       textureFormat: 0
       bGenerateOnLoad: 1
     material: {fileID: 2100000, guid: 6dc5de52b54787f4ea3fabb5fb188b11, type: 3}
