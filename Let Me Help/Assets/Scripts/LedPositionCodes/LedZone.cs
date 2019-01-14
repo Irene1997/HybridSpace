@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// Class representing a zone in the maze linked to a led. Multiple zones can link to the same led.
 /// </summary>
-public class LedZone : MonoBehaviour
+public class LedZone : MonoBehaviour, IComparable
 {
     //public Transform leftBorder;
     //public Transform rightBorder;
@@ -13,6 +14,7 @@ public class LedZone : MonoBehaviour
     //public Transform bottomBorder;
 
     public LedPosition led;
+    public int priority;
 
     //private float leftBound, rightBound, topBound, bottomBound;
 
@@ -59,4 +61,29 @@ public class LedZone : MonoBehaviour
     {
         return IsEntityInZone(entity.position);
     }
+
+    public int CompareTo(object obj)
+    {
+        return priority.CompareTo(obj);
+    }
+
+    //public static bool operator >(LedZone a, LedZone b)
+    //{
+    //    return (a.priority > b.priority);
+    //}
+
+    //public static bool operator <(LedZone a, LedZone b)
+    //{
+    //    return (a.priority < b.priority);
+    //}
+
+    //public static bool operator ==(LedZone a, LedZone b)
+    //{
+    //    return (a.priority == b.priority);
+    //}
+
+    //public static bool operator !=(LedZone a, LedZone b)
+    //{
+    //    return (a.priority != b.priority);
+    //}
 }

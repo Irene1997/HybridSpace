@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LedPositionsHandler : MonoBehaviour {
@@ -18,13 +20,15 @@ public class LedPositionsHandler : MonoBehaviour {
         //ledPositions = GetComponentsInChildren<LedPosition>();
         ledZones = GetComponentsInChildren<LedZone>();
         enemyLeds = new LedPosition[GameController.Instance.enemyControllers.Length];
+
+        Array.Sort(ledZones);
     }
 
     // Update
     void Update() {
         // Finds the closest LED to the player
         LedPosition closestLed = FindLed(GameController.Instance.player.transform.position);
-        if (closestLed != playerLed) {
+        if (closestLed != playerLed) {;
             playerLed = closestLed;
             GameController.Instance.arduinoHandler.WritePlayerPosition(closestLed.col, closestLed.row);
         }
@@ -59,11 +63,11 @@ public class LedPositionsHandler : MonoBehaviour {
     /// <returns>Led corresponding to position of entity</returns>
     LedPosition FindLed(Vector3 pos)
     {
-        foreach(LedZone zone in ledZones)
+        for (int i = 0; i < ledZones.Length; i++)
         {
-            LedPosition led = zone.IsEntityInZone(pos);
-            
-            if(led) {return led; }
+            LedPosition led = ledZones[i].IsEntityInZone(pos);
+
+            if (led) { return led; }
         }
 
         throw new System.ArgumentOutOfRangeException("Entity not in any ledzone. Entity position:" + pos);
