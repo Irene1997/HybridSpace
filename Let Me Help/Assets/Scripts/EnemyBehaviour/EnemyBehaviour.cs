@@ -9,6 +9,10 @@ public class EnemyBehaviour : MonoBehaviour
     public enum CurrentState { Patrol, Chase, Search }
 
     NavMeshAgent agent;
+    AudioSource song;
+
+    [SerializeField] [Range(0.0f, 0.1f)]
+    private float pitchStep;
 
     Vector3 destination;
     [SerializeField] [Range(0,50)]
@@ -30,6 +34,7 @@ public class EnemyBehaviour : MonoBehaviour
     void Start()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
+        song = gameObject.GetComponent<AudioSource>();
         patrolPointer = 0;
         gameController = GameController.Instance;
         currentState = CurrentState.Patrol;
@@ -44,6 +49,7 @@ public class EnemyBehaviour : MonoBehaviour
             gameController.PlayerDied();
         }
 
+        song.pitch += Random.Range(-pitchStep, pitchStep);
 
         //Decide a destination (if any) based on the current state of the enemy
         switch (currentState)
