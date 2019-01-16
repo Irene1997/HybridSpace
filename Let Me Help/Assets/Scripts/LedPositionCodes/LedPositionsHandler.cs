@@ -28,12 +28,12 @@ public class LedPositionsHandler : MonoBehaviour {
     void Update() {
         // Finds the closest LED to the player
         LedPosition closestLed = FindLed(GameController.Instance.player.transform.position);
-        if (closestLed != playerLed) {;
+        if (closestLed != playerLed) {
             playerLed = closestLed;
             GameController.Instance.arduinoHandler.WritePlayerPosition(closestLed.col, closestLed.row);
         }
         // Finds the closest LED for each enemy
-        for (int i = 0; i < enemyLeds.Length; ++i) {
+        for (int i = 0; i < enemyLeds.Length; i++) {
             closestLed = FindLed(GameController.Instance.enemyControllers[i].transform.position);
             if (closestLed != enemyLeds[i]) {
                 enemyLeds[i] = closestLed;
@@ -67,10 +67,11 @@ public class LedPositionsHandler : MonoBehaviour {
         {
             LedPosition led = ledZones[i].IsEntityInZone(pos);
 
-            if (led) { return led; }
+            if (led != null) { return led; }
         }
 
-        throw new System.ArgumentOutOfRangeException("Entity not in any ledzone. Entity position:" + pos);
+        return null;
+        //throw new System.ArgumentOutOfRangeException("Entity not in any ledzone. Entity position:" + pos);
     }
 
     public void SendAllCurrentStates() {
