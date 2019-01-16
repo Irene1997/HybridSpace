@@ -5,16 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    public Camera camera;
-    public Transform leftWheel, rightWheel;
+    //public Camera camera;
     public GameObject modelLeftWheel, modelRightWheel;
     public float rotationMultiplier, movementMultiplier;
     //int currentPosLeft = 0, currentPosRight = 0;
 
     Rigidbody rigidbody;
 
-    public int playerHP = 20;
-    public Text hpText;
+    //public int playerHP = 20;
+    //public Text hpText;
 
     float left, right;
 
@@ -44,18 +43,18 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Checks the playerHP each update and writes it to the UI
     /// </summary>
-    void UpdateHP()
-    {
-        if (playerHP <= 0)
-        {
-            GameController.Instance.PlayerDied();
-        }
-        else
-        {
-            hpText.text = "HP: " + playerHP.ToString();
-        }
+    //void UpdateHP()
+    //{
+    //    if (playerHP <= 0)
+    //    {
+    //        GameController.Instance.PlayerDied();
+    //    }
+    //    else
+    //    {
+    //        hpText.text = "HP: " + playerHP.ToString();
+    //    }
 
-    }
+    //}
 
 
     /// <summary>
@@ -116,9 +115,9 @@ public class PlayerController : MonoBehaviour
     /// Decreases the playerHP by the given amount
     /// </summary>
     /// <param name="enemyDamage">The amount of damage to be done to the player</param>
-    public void Damage(int enemyDamage)
-    {
-        playerHP -= enemyDamage;
-        UpdateHP();
-    }
+    //public void Damage(int enemyDamage)
+    //{
+    //    playerHP -= enemyDamage;
+    //    UpdateHP();
+    //}
 }
