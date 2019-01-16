@@ -102,8 +102,8 @@ public class PlayerController : MonoBehaviour
 
     void MoveModelWheel(float leftChange, float rightChange)
     {
-        modelLeftWheel.transform.Rotate(Vector3.forward * leftChange * 10);
-        modelRightWheel.transform.Rotate(Vector3.forward * rightChange * 10);
+        modelLeftWheel.transform.Rotate(Vector3.forward * leftChange * 15);
+        modelRightWheel.transform.Rotate(Vector3.forward * rightChange * 15);
     }
 
     public void CallMovement(float leftChange, float rightChange)

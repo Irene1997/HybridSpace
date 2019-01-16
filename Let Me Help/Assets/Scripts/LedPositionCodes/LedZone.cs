@@ -13,7 +13,7 @@ public class LedZone : MonoBehaviour, IComparable
     //public Transform topBorder;
     //public Transform bottomBorder;
 
-    public LedPosition led;
+    LedPosition led;
     public int priority;
 
     //private float leftBound, rightBound, topBound, bottomBound;
@@ -22,6 +22,7 @@ public class LedZone : MonoBehaviour, IComparable
 
     void Start()
     {
+        led = GetComponent<LedPosition>();
         collider = GetComponent<BoxCollider>();
 
         //float leftBound = leftBorder.position.x;

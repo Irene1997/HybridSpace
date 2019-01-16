@@ -175,7 +175,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1277201021
+--- !u!1001 &1448554254
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -214,6 +214,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114289533258067300, guid: 129399db62237304c9ca1d93c29533d2,
+        type: 2}
+      propertyPath: rotationMultiplier
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114289533258067300, guid: 129399db62237304c9ca1d93c29533d2,
+        type: 2}
+      propertyPath: movementMultiplier
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 129399db62237304c9ca1d93c29533d2, type: 2}
   m_IsPrefabAsset: 0
@@ -232,7 +242,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &2131142317
 Light:
   m_ObjectHideFlags: 0
