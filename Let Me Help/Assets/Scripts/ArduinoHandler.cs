@@ -121,6 +121,10 @@ public class ArduinoHandler : MonoBehaviour {
 
     // Close connections on exit
     public void OnApplicationQuit() {
+        CloseArduinos();
+    }
+
+    public void CloseArduinos() {
         WritePlayerPosition(-1, -1);
         for (int i = 0; i < GameController.Instance.enemyControllers.Length; ++i) {
             WriteMonsterPosition(i, -1, -1);

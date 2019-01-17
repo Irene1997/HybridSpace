@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-        Debug.Log("coll: " + col.gameObject.tag);
+        //Debug.Log("coll: " + col.gameObject.tag);
         if (col.gameObject.tag == "Finish")
         {
             SceneManager.LoadScene(0);

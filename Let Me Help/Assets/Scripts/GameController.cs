@@ -110,6 +110,12 @@ public class GameController : MonoBehaviour
         {
             canvasOfIntro.gameObject.SetActive(false);
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            arduinoHandler.CloseArduinos();
+            SceneManager.LoadScene(0);
+        }
     }
 
 
